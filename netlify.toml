@@ -1,9 +1,9 @@
 [build]
-  # We only need to install the Stripe library
+  # We just need to install the Stripe package
   command = "npm install"
   
-  # This tells Netlify: "The website is right here in the main folder."
-  # Do not change this to "dist" or "build"
+  # This tells Netlify: "The website is the root folder."
+  # Do NOT use "dist" or "build"
   publish = "."
 
 [functions]
