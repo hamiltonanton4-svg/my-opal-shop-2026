@@ -1,0 +1,12 @@
+[build]
+  command = "npm install"
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+
+# This creates a cleaner URL for your frontend to call
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

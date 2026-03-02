@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Stripe Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg text-center">
+        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Cool Product</h1>
+        <p class="text-gray-500 mb-8">Secure checkout via Stripe</p>
+        
+        <button id="checkout-button" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-all shadow-md">
+            Buy Now ($20.00)
+        </button>
+        
+        <div id="status-area" class="mt-6 text-sm font-medium hidden"></div>
+    </div>
+
+    <script>
+        const button = document.getElementById('checkout-button');
+        const statusArea = document.getElementById('status-area');
+
+        function showStatus(msg, isError = true) {
+            statusArea.innerText = msg;
+            statusArea.className = `mt-6 text-sm font-medium ${isError ? 'text-red-600' : 'text-indigo-600'}`;
+            statusArea.classList.remove('hidden');
+        }
+
+        button.addEventListener('click', async () => {
+            button.disabled = true;
+            button.innerText = 'Connecting...';
+            statusArea.classList.add('hidden');
+
+            try {
+                // We use the shortcut defined in netlify.toml
+                const response = await fetch('/api/create-checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const contentType = response.headers.get("content-type");
+                
+                // Safety check: If Netlify sends HTML (404), this catches it
+                if (!contentType || !contentType.includes("application/json")) {
+                    console.error("Wrong response type:", contentType);
+                    throw new Error("Server sent HTML instead of JSON. Your function folder might be named wrong!");
+                }
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || 'Server error');
+                }
+
+                const { url } = await response.json();
+                window.location.href = url;
+
+            } catch (err) {
+                console.error('Checkout Error:', err);
+                showStatus(err.message);
+                button.disabled = false;
+                button.innerText = 'Try Again';
+            }
+        });
+    </script>
+</body>
+</html>
