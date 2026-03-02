@@ -1,13 +1,8 @@
 [build]
-  # We just need to install the Stripe package
   command = "npm install"
-  
-  # This tells Netlify: "The website is the root folder."
-  # Do NOT use "dist" or "build"
   publish = "."
 
 [functions]
-  # This tells Netlify where your Stripe code is
   directory = "netlify/functions"
 
 [[redirects]]
