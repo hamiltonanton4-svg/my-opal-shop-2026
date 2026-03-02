@@ -1,24 +1,16 @@
 [build]
-  # Installs your Stripe dependencies
+  # We only need to install the Stripe library
   command = "npm install"
   
-  # Tells Netlify your HTML files are in the main folder (the root)
-  # IMPORTANT: No commas, no quotes, just a single period.
+  # This tells Netlify: "The website is right here in the main folder."
+  # Do not change this to "dist" or "build"
   publish = "."
 
 [functions]
-  # Tells Netlify where the backend code lives
+  # This tells Netlify where your Stripe code is
   directory = "netlify/functions"
 
-# This makes your site cleaner by letting you use /api/create-checkout
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
-
-# Fixes potential refresh issues on the success/about pages
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
