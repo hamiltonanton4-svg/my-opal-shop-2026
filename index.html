@@ -3,64 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Stripe Shop</title>
+    <title>Obsidian | The Stealth Series</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: #fff; }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg text-center">
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Cool Product</h1>
-        <p class="text-gray-500 mb-8">Secure checkout via Stripe</p>
+<body class="selection:bg-white selection:text-black">
+
+    <nav class="p-8 flex justify-between items-center border-b border-zinc-900">
+        <div class="text-xl font-black tracking-tighter uppercase italic">Obsidian</div>
+        <div class="hidden md:block text-[10px] text-zinc-500 tracking-[0.3em] uppercase font-bold">Edition 01 / 2026</div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
+        <div>
+            <span class="text-xs font-bold tracking-[0.2em] text-zinc-600 uppercase mb-4 block underline decoration-zinc-800 underline-offset-8">Available Worldwide</span>
+            <h1 class="text-7xl md:text-9xl font-black leading-[0.85] mb-8 italic tracking-tighter">STEALTH <br><span class="text-zinc-800">CRAFT.</span></h1>
+            <p class="text-lg text-zinc-500 mb-10 max-w-sm leading-relaxed">Surgical steel. Sapphire crystal. Matte obsidian finish. A watch for those who move in silence.</p>
+            
+            <button id="buy-button" class="w-full md:w-auto bg-white text-black px-16 py-6 text-xl font-black hover:bg-zinc-200 transition-all active:scale-95 disabled:opacity-50 uppercase italic">
+                Get the Watch — $20.00
+            </button>
+        </div>
         
-        <button id="checkout-button" class="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-all shadow-md">
-            Buy Now ($20.00)
-        </button>
-        
-        <div id="status-area" class="mt-6 text-sm font-medium hidden"></div>
-    </div>
+        <div class="relative group">
+            <div class="absolute -inset-1 bg-white rounded-lg blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+            <div class="relative bg-zinc-900 border border-zinc-800 aspect-square flex items-center justify-center rounded-lg overflow-hidden">
+                 <span class="text-black text-[15rem] font-black tracking-tighter select-none opacity-50">OB</span>
+            </div>
+        </div>
+    </main>
 
     <script>
-        const button = document.getElementById('checkout-button');
-        const statusArea = document.getElementById('status-area');
+        const buyBtn = document.getElementById('buy-button');
 
-        function showStatus(msg, isError = true) {
-            statusArea.innerText = msg;
-            statusArea.className = `mt-6 text-sm font-medium ${isError ? 'text-red-600' : 'text-indigo-600'}`;
-            statusArea.classList.remove('hidden');
-        }
-
-        button.addEventListener('click', async () => {
-            button.disabled = true;
-            button.innerText = 'Connecting...';
-            statusArea.classList.add('hidden');
+        buyBtn.addEventListener('click', async () => {
+            buyBtn.innerText = "CONNECTING...";
+            buyBtn.disabled = true;
 
             try {
-                // We use the shortcut defined in netlify.toml
-                const response = await fetch('/api/create-checkout', {
+                const response = await fetch('/api/create-checkout', { 
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
 
-                const contentType = response.headers.get("content-type");
+                if (!response.ok) throw new Error("Check Netlify Environment Variables");
+
+                const data = await response.json();
                 
-                // Safety check: If Netlify sends HTML (404), this catches it
-                if (!contentType || !contentType.includes("application/json")) {
-                    console.error("Wrong response type:", contentType);
-                    throw new Error("Server sent HTML instead of JSON. Your function folder might be named wrong!");
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    throw new Error("Stripe session failed");
                 }
-
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error || 'Server error');
-                }
-
-                const { url } = await response.json();
-                window.location.href = url;
 
             } catch (err) {
-                console.error('Checkout Error:', err);
-                showStatus(err.message);
-                button.disabled = false;
-                button.innerText = 'Try Again';
+                alert("Checkout Error: " + err.message);
+                buyBtn.innerText = "Get the Watch — $20.00";
+                buyBtn.disabled = false;
             }
         });
     </script>
