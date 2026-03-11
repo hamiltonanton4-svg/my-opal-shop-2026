@@ -1,7 +1,7 @@
-/* --- 1. CORE VARIABLES & SETUP --- */
+/* --- 1. CORE VARIABLES --- */
 :root {
   --primary: #6d5efc;       /* Electric Indigo */
-  --primary-glow: rgba(109, 94, 252, 0.3);
+  --primary-glow: rgba(109, 94, 252, 0.35);
   --accent: #38bdf8;        /* Sky Blue */
   --teal: #2dd4bf;          /* Neon Teal */
   --text: #0f172a;          /* Deep Slate */
@@ -14,16 +14,15 @@
   --radius-sm: 18px;
 }
 
+/* --- 2. GLOBAL RESET & BOUTIQUE FONTS --- */
 * { 
   box-sizing: border-box; 
   margin: 0; 
   padding: 0; 
 }
 
-html { scroll-behavior: smooth; }
-
 body {
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text);
   background: #f8fbff;
   line-height: 1.6;
@@ -31,7 +30,7 @@ body {
   min-height: 100vh;
 }
 
-/* --- 2. VIBRANT BACKGROUND ORBS --- */
+/* --- 3. VIBRANT 2026 BACKGROUND ORBS --- */
 body::before, body::after {
   content: "";
   position: fixed;
@@ -44,26 +43,15 @@ body::before, body::after {
   pointer-events: none;
   animation: drift 25s infinite alternate ease-in-out;
 }
-
-body::before {
-  background: var(--primary);
-  top: -20%;
-  left: -15%;
-}
-
-body::after {
-  background: var(--teal);
-  bottom: -20%;
-  right: -15%;
-  animation-delay: -12s;
-}
+body::before { background: var(--primary); top: -20%; left: -15%; }
+body::after { background: var(--teal); bottom: -20%; right: -15%; animation-delay: -12s; }
 
 @keyframes drift {
   from { transform: translate(0, 0) scale(1); }
   to { transform: translate(150px, 100px) scale(1.1); }
 }
 
-/* --- 3. ANTI-COLLISION NAVIGATION --- */
+/* --- 4. ANTI-COLLISION NAVIGATION --- */
 .site-header {
   position: sticky;
   top: 0;
@@ -98,8 +86,9 @@ body::after {
 .nav {
   display: flex;
   align-items: center;
-  /* Smart Spacing: Stays at 3.5rem on large screens, shrinks to 1rem before colliding */
+  /* Smart Spacing: Stays at 3.5rem but shrinks automatically to 1rem */
   gap: clamp(1rem, 3.5vw, 3.5rem); 
+  margin-left: auto;
 }
 
 .nav a {
@@ -113,16 +102,10 @@ body::after {
   transition: all 0.3s ease;
 }
 
-.nav a:hover, .nav a.active {
-  color: var(--primary);
-  text-shadow: 0 0 20px var(--primary-glow);
-}
+.nav a:hover, .nav a.active { color: var(--primary); }
 
-/* --- 4. EDITORIAL HERO SECTION --- */
-.container { 
-  width: min(1440px, 94%); 
-  margin: 0 auto; 
-}
+/* --- 5. EDITORIAL HERO & PILLS --- */
+.container { width: min(1440px, 94%); margin: 0 auto; }
 
 .hero {
   margin-top: 3rem;
@@ -131,8 +114,6 @@ body::after {
   background: var(--glass);
   border: 1px solid var(--glass-border);
   box-shadow: 0 40px 100px -20px rgba(109, 94, 252, 0.1);
-  position: relative;
-  overflow: hidden;
 }
 
 .pill {
@@ -160,29 +141,7 @@ body::after {
   -webkit-text-fill-color: transparent;
 }
 
-/* --- 5. STATS & BUTTONS --- */
-.hero-stats {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-top: 3rem;
-}
-
-.stat-chip {
-  background: rgba(255, 255, 255, 0.5);
-  padding: 1rem 1.5rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(5px);
-}
-
-.stat-chip strong {
-  font-size: 0.9rem;
-  color: var(--text);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
+/* --- 6. BUTTONS & STATS --- */
 .btn {
   display: inline-block;
   text-decoration: none;
@@ -191,10 +150,10 @@ body::after {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  font-size: 0.9rem;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-size: 0.85rem;
   border: none;
   cursor: pointer;
+  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .btn-primary {
@@ -203,29 +162,56 @@ body::after {
   box-shadow: 0 15px 35px var(--primary-glow);
 }
 
-.btn-primary:hover {
-  transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 20px 45px var(--primary-glow);
-}
+.btn-primary:hover { transform: translateY(-5px); box-shadow: 0 20px 45px var(--primary-glow); }
 
-/* --- 6. SHOP & GRIDS --- */
-.section { margin: 6rem 0; }
+.hero-stats { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; }
 
-.section-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 2.5rem;
-}
-
-.section-label {
+.stat-chip {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  font-weight: 700;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--muted);
-  font-size: 0.75rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
 }
+
+/* --- 7. THE BAG & CART ITEM STYLING --- */
+.cart-badge {
+  background: var(--primary);
+  color: white;
+  font-size: 0.65rem;
+  padding: 2px 7px;
+  border-radius: 6px;
+  margin-left: 5px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  background: var(--glass);
+  padding: 1.5rem;
+  border-radius: 24px;
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border);
+}
+
+.cart-item img {
+  width: 100px;
+  height: 135px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.qty-controls { display: flex; align-items: center; gap: 1rem; }
+.qty-controls button {
+  width: 32px; height: 32px; border-radius: 10px;
+  border: 1px solid var(--border); background: white; cursor: pointer;
+}
+
+/* --- 8. SHOP GRIDS --- */
+.section-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
 
 .product-grid {
   display: grid;
@@ -233,47 +219,34 @@ body::after {
   gap: 3rem 2rem;
 }
 
-/* Clothing Card Special Styling */
 .product-image-container {
-  aspect-ratio: 3/4; /* Fashion Vertical Crop */
+  aspect-ratio: 3/4;
   border-radius: 24px;
   overflow: hidden;
   background: #f1f5f9;
   margin-bottom: 1.2rem;
-  position: relative;
 }
 
-.product-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
+.product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.8s cubic-bezier(0.2, 1, 0.3, 1); }
+.product-card:hover img { transform: scale(1.1); }
+
+/* --- 9. REVEAL ANIMATION (FIXED) --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
 }
 
-.product-card:hover img {
-  transform: scale(1.1);
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.product-title {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-
-.price {
-  font-weight: 900;
-  color: var(--primary);
-}
-
-/* --- 7. RESPONSIVE BREAKPOINTS --- */
-@media (max-width: 1024px) {
-  .header-inner { padding: 1rem 2rem; }
-  .hero { padding: 5rem 3rem; }
-}
-
+/* --- 10. RESPONSIVE --- */
 @media (max-width: 850px) {
-  .nav { display: none; } /* Use a burger menu for mobile in your JS */
-  .hero { text-align: center; }
-  .hero h1 { line-height: 1.1; }
+  .nav { display: none; } /* Switch to burger in JS for mobile */
+  .header-inner { padding: 1rem 1.5rem; }
+  .hero { padding: 4rem 2rem; text-align: center; }
   .hero-stats { justify-content: center; }
+  .shop-layout { grid-template-columns: 1fr !important; }
 }
