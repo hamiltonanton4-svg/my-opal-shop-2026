@@ -3,39 +3,46 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Opalwave | Home</title>
+  <title>Opalwave | Digital Luxury Apparel</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="site-header"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Opalwave</a>
+      <nav class="nav">
+        <a href="index.html" class="active">Home</a>
+        <a href="shop.html">Collections</a>
+        <a href="#">Aesthetic</a>
+        <a href="#">Connect</a>
+        <a href="cart.html" class="cart-link">Bag <span class="cart-count">0</span></a>
+      </nav>
+    </div>
+  </header>
 
   <main class="container">
+    
+    
     <section class="hero reveal">
       <div class="hero-content">
         <span class="pill">Collection No. 04 — 2026</span>
         <h1>Digital Luxury.<br>Physical Form.</h1>
-        <p>
-          Opalwave transcends the traditional storefront, merging high-performance silhouettes 
-          with a hyper-fluid digital experience. Designed for those who live in the future.
-        </p>
-
+        
         <div class="hero-actions">
           <a href="shop.html" class="btn btn-primary">Explore Drops</a>
-          <a href="admin.html" class="btn btn-secondary">Manage Catalog</a>
         </div>
 
         <div class="hero-stats">
           <div class="stat-chip">
             <strong>Bespoke Quality</strong>
-            <span>Hand-selected fabrics & materials</span>
           </div>
           <div class="stat-chip">
             <strong>Fluid Checkout</strong>
-            <span>Seamless bag-to-door experience</span>
           </div>
           <div class="stat-chip">
             <strong>Global Shipping</strong>
-            <span>Future-ready logistics worldwide</span>
           </div>
         </div>
       </div>
@@ -62,9 +69,14 @@
 
       <div class="product-grid" id="featured-products"></div>
     </section>
+
   </main>
 
-  <div id="site-footer"></div>
+  <footer id="site-footer">
+    <div class="footer-inner container">
+      <p>&copy; 2026 Opalwave Apparel. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="js/products.js"></script>
   <script src="js/app.js"></script>
