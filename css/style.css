@@ -1,25 +1,20 @@
-/* --- 1. CORE VARIABLES & THEME --- */
+/* --- 1. CORE VARIABLES --- */
 :root {
-  --primary: #6d5efc;       /* Electric Indigo */
+  --primary: #6d5efc;
   --primary-glow: rgba(109, 94, 252, 0.35);
-  --accent: #38bdf8;        /* Sky Blue */
-  --teal: #2dd4bf;          /* Neon Teal */
-  --text: #0f172a;          /* Deep Slate */
+  --accent: #38bdf8;
+  --teal: #2dd4bf;
+  --text: #0f172a;
   --text-soft: #475569;
   --muted: #94a3b8;
   --border: rgba(109, 94, 252, 0.12);
-  --glass: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass: rgba(255, 255, 255, 0.75);
   --radius: 32px;
   --radius-sm: 18px;
 }
 
-/* --- 2. GLOBAL RESET --- */
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-}
+/* --- 2. GLOBAL RESET & BOUTIQUE FONTS --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Inter', sans-serif;
@@ -32,227 +27,74 @@ body {
 
 /* --- 3. VIBRANT BACKGROUND ORBS --- */
 body::before, body::after {
-  content: "";
-  position: fixed;
-  width: 70vw;
-  height: 70vw;
-  border-radius: 50%;
-  filter: blur(120px);
-  z-index: -1;
-  opacity: 0.15;
-  pointer-events: none;
+  content: ""; position: fixed; width: 70vw; height: 70vw; border-radius: 50%;
+  filter: blur(120px); z-index: -1; opacity: 0.15; pointer-events: none;
 }
 body::before { background: var(--primary); top: -20%; left: -15%; }
 body::after { background: var(--teal); bottom: -20%; right: -15%; }
 
 /* --- 4. NAVIGATION & HEADER --- */
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  position: sticky; top: 0; z-index: 1000;
+  background: rgba(255, 255, 255, 0.75); backdrop-filter: blur(25px);
   border-bottom: 1px solid var(--border);
 }
-
 .header-inner {
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 1.25rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  max-width: 1440px; margin: 0 auto; padding: 1.25rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
 }
+.logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; color: var(--text); }
+.nav { display: flex; align-items: center; gap: 3rem; }
+.nav a { text-decoration: none; color: var(--text-soft); font-weight: 700; font-size: 0.75rem; text-transform: uppercase; transition: 0.3s; }
+.nav a:hover, .nav a.active { color: var(--primary); }
 
-.logo {
-  font-size: 1.4rem;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text);
-  text-decoration: none;
-}
+.cart-badge { background: var(--primary); color: white; font-size: 0.65rem; padding: 2px 7px; border-radius: 6px; margin-left: 5px; font-weight: 800; }
 
-.nav {
-  display: flex;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 3rem); 
-}
-
-.nav a {
-  text-decoration: none;
-  color: var(--text-soft);
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: 0.3s;
-}
-
-.nav a:hover { color: var(--primary); }
-
-.cart-badge {
-  background: var(--primary);
-  color: white;
-  font-size: 0.65rem;
-  padding: 2px 7px;
-  border-radius: 6px;
-  margin-left: 5px;
-  font-weight: 800;
-}
-
-/* --- 5. LAYOUT & HERO --- */
-.container { 
-  width: min(1440px, 94%); 
-  margin: 0 auto; 
-}
-
+/* --- 5. HERO SECTION --- */
+.container { width: min(1440px, 94%); margin: 0 auto; }
 .hero {
-  margin-top: 2rem;
-  padding: 8rem 4rem;
-  border-radius: var(--radius);
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  text-align: left;
+  margin-top: 2rem; padding: 8rem 5rem; border-radius: var(--radius);
+  background: var(--glass); border: 1px solid white;
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.05);
 }
+.hero h1 { font-size: clamp(3rem, 8vw, 6.5rem); line-height: 0.9; font-weight: 900; margin: 1.5rem 0; letter-spacing: -0.04em; }
+.pill { display: inline-block; background: rgba(109, 94, 252, 0.08); color: var(--primary); padding: 0.5rem 1.2rem; border-radius: 99px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
-.hero h1 {
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 0.95;
-  font-weight: 900;
-  margin: 1.5rem 0 2.5rem;
-  letter-spacing: -0.03em;
-}
-
-.pill {
-  display: inline-block;
-  background: rgba(109, 94, 252, 0.08);
-  color: var(--primary);
-  padding: 0.5rem 1.2rem;
-  border-radius: 99px;
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.hero-stats { display: flex; gap: 1rem; margin-top: 3rem; }
-.stat-chip {
-  background: white;
-  padding: 0.8rem 1.2rem;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-/* --- 6. PRODUCT CARDS --- */
+/* --- 6. PRODUCT CARDS & GRID --- */
 .section { margin: 6rem 0; }
-.section-top { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: flex-end; 
-  margin-bottom: 2.5rem; 
-}
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 3rem; }
+.product-card { transition: 0.4s ease; cursor: pointer; }
+.product-card:hover { transform: translateY(-10px); }
 
-.section-label {
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  color: var(--primary);
-  letter-spacing: 0.1em;
-  margin-bottom: 0.5rem;
-}
+.product-image-wrap { aspect-ratio: 3/4; border-radius: 24px; overflow: hidden; background: #eee; margin-bottom: 1.5rem; }
+.product-card img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
+.product-card:hover img { transform: scale(1.05); }
 
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2.5rem;
-}
-
-.product-card {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: 24px;
-  padding: 1rem;
-  transition: 0.4s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-}
-
-.product-card img {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  border-radius: 16px;
-  margin-bottom: 1rem;
-}
-
-.product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-.price { font-weight: 900; color: var(--primary); font-size: 1.1rem; }
+.product-category { font-size: 0.7rem; font-weight: 900; color: var(--primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+.product-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+.price { font-weight: 900; color: var(--text); }
 
 /* --- 7. BUTTONS --- */
-.btn {
-  display: inline-block;
-  text-decoration: none;
-  padding: 1rem 2rem;
-  border-radius: 16px;
-  font-weight: 800;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-  text-align: center;
-}
-
 .btn-primary {
-  background: var(--primary);
-  color: white;
-  width: 100%;
-  margin-top: 1rem;
+  background: #000; color: #fff; padding: 1rem 2rem; border-radius: 100px;
+  font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
+  border: none; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 1rem;
 }
+.btn-primary:hover { background: var(--primary); transform: scale(1.02); box-shadow: 0 15px 30px var(--primary-glow); }
 
-.btn-primary:hover {
-  background: var(--text);
-  transform: scale(1.02);
-}
-
-/* --- 8. REVEAL ANIMATIONS --- */
-.reveal {
-  opacity: 1; /* Keeping it 1 to ensure you can see your site immediately */
-  transition: 0.8s ease-out;
-}
-
-/* --- 9. TOAST NOTIFICATIONS --- */
+/* --- 8. TOAST NOTIFICATION --- */
 .toast {
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--text);
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 99px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  z-index: 2000;
-  transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: #000; color: #fff; padding: 1rem 2.5rem; border-radius: 99px;
+  font-weight: 700; z-index: 2000; transition: 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
-
 .toast.show { transform: translateX(-50%) translateY(0); }
 
-/* --- 10. MOBILE RESPONSIVENESS --- */
+/* --- 9. REVEAL SETTINGS --- */
+.reveal { opacity: 1; transition: 0.8s ease-out; }
+
+/* --- 10. MOBILE --- */
 @media (max-width: 768px) {
-  .hero { padding: 4rem 2rem; text-align: center; }
-  .hero-stats { justify-content: center; flex-direction: column; }
-  .header-inner { padding: 1rem; }
-  .nav { gap: 1rem; }
-  .nav a { font-size: 0.7rem; }
+  .hero { padding: 4rem 2rem; }
+  .nav { display: none; } /* Add a mobile menu later if needed */
 }
