@@ -1,23 +1,22 @@
 :root {
-  /* THE REFINED DARK PALETTE */
-  --bg: #050505;
-  --bg-2: #0a0a0b;
-  --bg-3: #111112;
-  --card: rgba(20, 20, 25, 0.6); /* Translucent Dark Glass */
-  --card-strong: rgba(30, 30, 35, 0.8);
-  --text: #ffffff;
-  --text-soft: #94a3b8;
-  --muted: #475569;
-  --border: rgba(255, 255, 255, 0.08);
-  --primary: #3b82f6; /* Electric Blue Accent */
-  --primary-2: #6366f1;
-  --accent: #00f2ff;
-  --danger: #ff4444;
-  --success: #10b981;
-  --shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  --shadow-2: 0 12px 30px rgba(59, 130, 246, 0.15);
-  --radius: 24px;
-  --radius-sm: 16px;
+  --bg: #eef4ff;
+  --bg-2: #f8fbff;
+  --bg-3: #ffffff;
+  --card: rgba(255, 255, 255, 0.72);
+  --card-strong: rgba(255, 255, 255, 0.88);
+  --text: #0f172a;
+  --text-soft: #334155;
+  --muted: #64748b;
+  --border: rgba(148, 163, 184, 0.22);
+  --primary: #6d5efc;
+  --primary-2: #2dd4bf;
+  --accent: #38bdf8;
+  --danger: #ef4444;
+  --success: #16a34a;
+  --shadow: 0 20px 50px rgba(148, 163, 184, 0.18);
+  --shadow-2: 0 12px 30px rgba(99, 102, 241, 0.12);
+  --radius: 26px;
+  --radius-sm: 18px;
 }
 
 * { box-sizing: border-box; }
@@ -25,57 +24,60 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, Arial, sans-serif;
   color: var(--text);
   min-height: 100vh;
-  background: 
-    radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.1), transparent 30%),
-    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.1), transparent 30%),
-    var(--bg);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.15), transparent 25%),
+    radial-gradient(circle at 90% 20%, rgba(109, 94, 252, 0.14), transparent 28%),
+    radial-gradient(circle at 30% 80%, rgba(45, 212, 191, 0.12), transparent 30%),
+    linear-gradient(180deg, #f8fbff 0%, #eef4ff 45%, #f9fcff 100%);
   position: relative;
   overflow-x: hidden;
 }
 
-/* THE GRID OVERLAY */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
+    linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent 85%);
   pointer-events: none;
-  z-index: -1;
+  z-index: -3;
 }
 
-.container { width: min(1320px, calc(100% - 3rem)); margin: 0 auto; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
 
-/* GLASS CARD OVERRIDE */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+.container {
+  width: min(1320px, calc(100% - 2rem));
+  margin: 0 auto;
 }
 
-/* HEADER GLASS */
+/* HEADER STYLE */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(5, 5, 5, 0.7);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid var(--border);
+  background: rgba(248, 251, 255, 0.68);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
 
 .logo {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 900;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
@@ -83,59 +85,79 @@ body::before {
   color: transparent;
 }
 
-/* CLOTHING GRID & IMAGES */
+/* HERO SECTION */
+.hero {
+  margin-top: 2rem;
+  padding: 3.25rem;
+  border-radius: 36px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,255,255,0.66));
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+/* PRODUCT GRID - CLOTHING READY */
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 2rem;
+  margin: 3rem 0;
 }
 
 .product-card {
   background: var(--card);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-10px);
-  border-color: var(--primary);
+  transform: translateY(-8px);
 }
 
 .product-card img {
   width: 100%;
-  aspect-ratio: 3 / 4; /* VITAL FOR CLOTHING */
+  aspect-ratio: 3 / 4; /* VITAL: Vertical fashion photography look */
   object-fit: cover;
-  transition: transform 0.5s ease;
 }
-
-.product-card:hover img { transform: scale(1.05); }
 
 .product-card-body { padding: 1.5rem; }
-
-.product-title {
-  font-size: 1.1rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.price {
-  font-size: 1.2rem;
-  font-weight: 900;
-  color: var(--accent);
-}
 
 /* BUTTONS */
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-2));
   color: white;
-  border-radius: var(--radius-sm);
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  padding: 0.8rem 2rem;
+  border-radius: 999px;
+  font-weight: 800;
+  display: inline-block;
 }
 
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-2px);
+/* SECRET ADMIN ACCESS DOT */
+.admin-trigger {
+  width: 6px;
+  height: 6px;
+  background: var(--muted);
+  opacity: 0.1;
+  border-radius: 50%;
+  margin: 40px auto;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.admin-trigger:hover {
+  opacity: 1;
+  background: var(--primary);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .product-grid { grid-template-columns: 1fr; }
 }
