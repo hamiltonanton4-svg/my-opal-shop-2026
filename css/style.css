@@ -1,44 +1,42 @@
 :root {
-  /* THE FASHION PALETTE: Shifted from Blues to Stark Monochrome */
+  /* THE REFINED DARK PALETTE */
   --bg: #050505;
-  --bg-2: #0a0a0a;
-  --bg-3: #111111;
-  --card: rgba(18, 18, 18, 0.7);
-  --card-strong: rgba(255, 255, 255, 0.05);
+  --bg-2: #0a0a0b;
+  --bg-3: #111112;
+  --card: rgba(20, 20, 25, 0.6); /* Translucent Dark Glass */
+  --card-strong: rgba(30, 30, 35, 0.8);
   --text: #ffffff;
-  --text-soft: #a1a1aa;
-  --muted: #52525b;
+  --text-soft: #94a3b8;
+  --muted: #475569;
   --border: rgba(255, 255, 255, 0.08);
-  --primary: #ffffff;    /* Primary is now White for high contrast */
-  --primary-2: #3f3f46;  
-  --accent: #3b82f6;     /* Keeping a hint of blue for the "Opal" vibe */
-  --danger: #ef4444;
-  --success: #22c55e;
-  --shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-  --radius: 0px;         /* Sharp edges = Luxury Streetwear */
-  --radius-sm: 0px;
+  --primary: #3b82f6; /* Electric Blue Accent */
+  --primary-2: #6366f1;
+  --accent: #00f2ff;
+  --danger: #ff4444;
+  --success: #10b981;
+  --shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 12px 30px rgba(59, 130, 246, 0.15);
+  --radius: 24px;
+  --radius-sm: 16px;
 }
 
-* {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   color: var(--text);
   min-height: 100vh;
-  background: var(--bg); /* Dark background for clothing */
+  background: 
+    radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.1), transparent 30%),
+    radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.1), transparent 30%),
+    var(--bg);
   position: relative;
   overflow-x: hidden;
 }
 
-/* THE ARCHITECTURAL GRID */
+/* THE GRID OVERLAY */
 body::before {
   content: "";
   position: fixed;
@@ -46,137 +44,98 @@ body::before {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  mask-image: linear-gradient(to bottom, black, transparent);
+  background-size: 40px 40px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
   pointer-events: none;
-  z-index: -3;
+  z-index: -1;
 }
 
-/* HEADER - CLEAN & MINIMAL */
+.container { width: min(1320px, calc(100% - 3rem)); margin: 0 auto; }
+
+/* GLASS CARD OVERRIDE */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+/* HEADER GLASS */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(5, 5, 5, 0.8);
-  backdrop-filter: blur(20px);
+  background: rgba(5, 5, 5, 0.7);
+  backdrop-filter: blur(15px);
   border-bottom: 1px solid var(--border);
 }
 
 .logo {
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   font-weight: 900;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--text);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.nav a {
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  font-weight: 700;
-}
-
-/* HERO - BOLD EDITORIAL STYLE */
-.hero {
-  margin-top: 0;
-  padding: 8rem 2rem;
-  border-radius: 0;
-  border: none;
-  background: transparent;
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: clamp(3rem, 10vw, 7rem);
-  line-height: 0.85;
-  font-weight: 900;
-  font-style: italic;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-}
-
-/* CLOTHING GRID - 3:4 VERTICAL RATIO */
+/* CLOTHING GRID & IMAGES */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3rem 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
 .product-card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-  border-color: transparent;
+  transform: translateY(-10px);
+  border-color: var(--primary);
 }
 
 .product-card img {
   width: 100%;
-  aspect-ratio: 3 / 4; /* Crucial for clothing stores */
+  aspect-ratio: 3 / 4; /* VITAL FOR CLOTHING */
   object-fit: cover;
-  filter: grayscale(100%); /* High-fashion monochrome */
-  transition: filter 0.5s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.5s ease;
 }
 
-.product-card:hover img {
-  filter: grayscale(0%);
-  transform: scale(1.02);
-}
+.product-card:hover img { transform: scale(1.05); }
+
+.product-card-body { padding: 1.5rem; }
 
 .product-title {
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-size: 1.1rem;
   font-weight: 800;
-  margin-top: 15px;
-}
-
-.product-category {
-  font-size: 10px;
-  color: var(--muted);
-  letter-spacing: 0.2em;
-}
-
-/* PRICE & BUTTONS */
-.price {
-  font-family: 'Courier New', monospace; /* Technical/Premium look */
-  font-size: 14px;
-}
-
-.btn {
-  border-radius: 0; /* Sharp buttons */
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 10px;
+  margin-bottom: 0.5rem;
 }
 
+.price {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--accent);
+}
+
+/* BUTTONS */
 .btn-primary {
-  background: var(--white);
-  color: var(--black);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: white;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
 }
 
-/* PRODUCT DETAIL VIEW */
-.product-detail {
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 4rem;
-}
-
-.product-media img {
-  border-radius: 0;
-  aspect-ratio: 3 / 4;
-}
-
-/* MOBILE FIXES */
-@media (max-width: 1100px) {
-  .product-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 600px) {
-  .product-grid { grid-template-columns: 1fr; }
-  .container { width: calc(100% - 2rem); }
+.btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-2px);
 }
