@@ -1,86 +1,57 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const list = document.getElementById("cart-items-list");
-  if (!list) return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Bag | Opalwave</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
 
-  const subtotalEl = document.getElementById("subtotal");
-  const totalEl = document.getElementById("total");
-  const clearCartBtn = document.getElementById("clearCartBtn");
-  const stripeCheckoutBtn = document.getElementById("stripeCheckoutBtn");
+  <div id="site-header"></div>
 
-  const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/test_00000000000000";
-
-  function renderCart() {
-    const cart = getCart();
-
-    if (!cart.length) {
-      list.innerHTML = `<div class="empty-state">Your cart is empty. Add something amazing to get started.</div>`;
-      subtotalEl.textContent = money(0);
-      totalEl.textContent = money(0);
-      return;
-    }
-
-    list.innerHTML = cart.map(item => `
-      <div class="cart-item reveal">
-        <img src="${item.image}" alt="${item.name}" />
-
-        <div>
-          <h3>${item.name}</h3>
-          <p class="muted">${money(item.price)}</p>
-
-          <div class="qty-controls">
-            <button onclick="changeQty('${item.id}', -1)">-</button>
-            <strong>${item.quantity}</strong>
-            <button onclick="changeQty('${item.id}', 1)">+</button>
-          </div>
-        </div>
-
-        <div>
-          <p><strong>${money(item.price * item.quantity)}</strong></p>
-          <button class="btn btn-danger" onclick="removeAndRefresh('${item.id}')">Remove</button>
-        </div>
+  <main class="container" style="margin-top: 5rem;">
+    <header class="section-top">
+      <div>
+        <p class="section-label">Checkout</p>
+        <h2>Your Bag</h2>
       </div>
-    `).join("");
+      <button id="clearCartBtn" class="text-link" style="background:none; border:none; cursor:pointer;">Clear Bag</button>
+    </header>
 
-    const subtotal = cartSubtotal();
-    subtotalEl.textContent = money(subtotal);
-    totalEl.textContent = money(subtotal);
-    initReveal();
-  }
+    <div class="shop-layout" style="display: grid; grid-template-columns: 1fr 350px; gap: 4rem;">
+      
+      <section id="cart-items-list">
+        </section>
 
-  window.changeQty = function(productId, amount) {
-    const cart = getCart();
-    const item = cart.find(i => i.id === productId);
-    if (!item) return;
-    updateCartQuantity(productId, item.quantity + amount);
-    renderCart();
-  };
+      <aside>
+        <div class="hero" style="padding: 2.5rem; margin-top: 0; border-radius: 24px; position: sticky; top: 120px;">
+          <h3 style="margin-bottom: 2rem; letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.9rem;">Order Summary</h3>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+            <span class="muted">Subtotal</span>
+            <span id="subtotal" style="font-weight: 700;">$0.00</span>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+            <span style="font-weight: 900;">Total</span>
+            <span id="total" style="font-weight: 900; color: var(--primary);">$0.00</span>
+          </div>
 
-  window.removeAndRefresh = function(productId) {
-    removeFromCart(productId);
-    renderCart();
-    showToast("Item removed from cart");
-  };
+          <button id="stripeCheckoutBtn" class="btn btn-primary" style="width: 100%;">Complete Purchase</button>
+          
+          <p class="muted" style="font-size: 0.7rem; text-align: center; margin-top: 1.5rem;">
+            Secure payment powered by Stripe.
+          </p>
+        </div>
+      </aside>
+    </div>
+  </main>
 
-  clearCartBtn.addEventListener("click", () => {
-    clearCart();
-    renderCart();
-    showToast("Cart cleared");
-  });
+  <div id="site-footer"></div>
 
-  stripeCheckoutBtn.addEventListener("click", () => {
-    const cart = getCart();
-    if (!cart.length) {
-      showToast("Your cart is empty");
-      return;
-    }
-
-    if (STRIPE_PAYMENT_LINK.includes("test_00000000000000")) {
-      showToast("Add your real Stripe Payment Link in js/cart.js");
-      return;
-    }
-
-    window.location.href = STRIPE_PAYMENT_LINK;
-  });
-
-  renderCart();
-});
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+  </body>
+</html>
