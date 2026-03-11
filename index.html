@@ -14,13 +14,42 @@
       <div class="hero-content">
         <span class="pill">Future-ready shopping experience</span>
         <h1>Opalwave blends luxury, speed, and futuristic design into one clean storefront.</h1>
-        <p> Discover trending products, explore curated categories, and enjoy a sleek shopping experience. </p>
+        <p>
+          Discover trending products, explore curated categories, and enjoy a sleek shopping
+          experience designed to feel premium, modern, and unforgettable.
+        </p>
 
         <div class="hero-actions">
           <a href="shop.html" class="btn btn-primary">Explore Products</a>
           <a href="admin.html" class="btn btn-secondary">Manage Catalog</a>
         </div>
+
+        <div class="hero-stats">
+          <div class="stat-chip">
+            <strong>Fast browsing</strong>
+            <span>Clean filtering and quick discovery</span>
+          </div>
+          <div class="stat-chip">
+            <strong>Premium visuals</strong>
+            <span>Glass cards and soft glow interactions</span>
+          </div>
+          <div class="stat-chip">
+            <strong>Stripe ready</strong>
+            <span>Simple checkout flow integration</span>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <section class="section reveal">
+      <div class="section-top">
+        <div>
+          <p class="section-label">Discover</p>
+          <h2>Curated Categories</h2>
+        </div>
+      </div>
+
+      <div class="category-grid" id="home-categories"></div>
     </section>
 
     <section class="section reveal">
@@ -31,6 +60,7 @@
         </div>
         <a href="shop.html" class="text-link">Browse all</a>
       </div>
+
       <div class="product-grid" id="featured-products"></div>
     </section>
   </main>
@@ -39,29 +69,5 @@
 
   <script src="js/products.js"></script>
   <script src="js/app.js"></script>
-
-  <script>
-    document.addEventListener('click', async (e) => {
-      if (e.target.classList.contains('buy-button')) {
-        const btn = e.target;
-        const originalText = btn.innerText;
-        btn.innerText = "CONNECTING...";
-        btn.style.opacity = "0.5";
-        btn.style.pointerEvents = "none";
-
-        try {
-          const response = await fetch('/api/create-checkout', { method: 'POST' });
-          const data = await response.json();
-          if (data.url) { window.location.href = data.url; } 
-          else { throw new Error(data.error || "Stripe Error"); }
-        } catch (err) {
-          alert("Error: " + err.message);
-          btn.innerText = originalText;
-          btn.style.opacity = "1";
-          btn.style.pointerEvents = "auto";
-        }
-      }
-    });
-  </script>
 </body>
 </html>
