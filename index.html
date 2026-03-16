@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Opalwave | Digital Luxury Apparel</title>
+  <title>Opalwave | Digital Luxury</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
+
+  <div class="glow-orb" style="background: var(--primary); top: -10%; left: -10%;"></div>
+  <div class="glow-orb" style="background: var(--secondary); bottom: -10%; right: -10%;"></div>
 
   <div id="site-header"></div>
 
@@ -15,10 +18,13 @@
     <section class="hero reveal">
       <div class="hero-content">
         <span class="pill">Collection No. 04 — 2026</span>
-        <h1>Digital Luxury.<br>Physical Form.</h1>
+        
+        <h1>Digital Luxury.<br><span style="opacity: 0.5;">Physical Form.</span></h1>
+        
         <div class="hero-actions">
-          <a href="shop.html" class="btn btn-primary">Explore Drops</a>
+          <a href="shop.html" class="btn-primary" style="display:inline-block; width:auto; text-decoration:none;">Explore Drops</a>
         </div>
+
         <div class="hero-stats">
           <div class="stat-chip"><strong>Bespoke Quality</strong></div>
           <div class="stat-chip"><strong>Fluid Checkout</strong></div>
@@ -43,7 +49,7 @@
           <p class="section-label">Seasonal Drops</p>
           <h2>Trending Now</h2>
         </div>
-        <a href="shop.html" class="text-link">View All Items →</a>
+        <a href="shop.html" class="text-link" style="color: var(--secondary); font-weight: 800; text-decoration: none;">View All Items →</a>
       </div>
       <div id="featured-products" class="product-grid"></div>
     </section>
