@@ -1,165 +1,130 @@
-/* --- OPALWAVE MASTER BRANDING 2026 --- */
-/* Digital Luxury. Physical Form. */
-
+/* 1. DEFINE THE COLOR PALETTE */
 :root {
-  --primary: #6d5efc;       /* Electric Indigo */
-  --primary-glow: rgba(109, 94, 252, 0.4);
-  --secondary: #2dd4bf;     /* Neon Teal */
-  --accent: #ff007a;        /* Cyber Pink */
-  --bg-deep: #050508;       /* Midnight Base */
-  --glass: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --text: #ffffff;
+  --bg-deep: #070a0d;       /* Midnight Obsidian */
+  --primary: #1c6b6a;       /* Transformative Teal */
+  --secondary: #6d5efc;     /* Electric Indigo */
+  --text: #f8fafc;          /* Off-White */
   --text-dim: #94a3b8;
-  --radius-lg: 40px;
-  --radius-md: 20px;
+  --glass: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.1);
 }
 
-/* --- 1. GLOBAL RESET --- */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-deep);
+/* 2. FORCE THE DARK BACKGROUND */
+html, body {
+  background-color: var(--bg-deep) !important;
   color: var(--text);
-  line-height: 1.5;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
   min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
-/* --- 2. MULTI-COLOR ATMOSPHERE --- */
+/* 3. THE GLOW ORBS (Atmosphere) */
 .glow-orb {
   position: fixed;
-  width: 80vw;
-  height: 80vw;
+  width: 70vw;
+  height: 70vw;
   border-radius: 50%;
-  filter: blur(150px);
-  z-index: -1;
+  filter: blur(120px);
+  z-index: -1; /* Behind everything */
   opacity: 0.25;
   pointer-events: none;
 }
 
-/* --- 3. NAVIGATION --- */
-.site-header {
-  position: sticky; top: 0; z-index: 1000;
-  background: rgba(5, 5, 8, 0.8);
-  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-  border-bottom: 1px solid var(--glass-border);
+/* 4. LAYOUT & CONTAINER */
+.container {
+  width: min(1440px, 92%);
+  margin: 0 auto;
 }
 
-.header-inner {
-  max-width: 1440px; margin: 0 auto; padding: 1.5rem 2rem;
-  display: flex; justify-content: space-between; align-items: center;
-}
-
-.logo { 
-  font-weight: 900; letter-spacing: 0.4em; font-size: 1.1rem; 
-  text-transform: uppercase; text-decoration: none; color: #fff;
-}
-
-.nav { display: flex; align-items: center; }
-
-.nav a { 
-  text-decoration: none; color: var(--text-dim); font-weight: 700; 
-  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em;
-  margin-left: 3rem; transition: 0.3s;
-}
-
-.nav a:hover, .nav a.active { color: #fff; text-shadow: 0 0 10px var(--primary); }
-
-.cart-badge {
-  background: var(--primary); color: white; padding: 2px 8px;
-  border-radius: 6px; font-size: 0.6rem; margin-left: 6px;
-}
-
-/* --- 4. HERO SECTION --- */
-.container { width: min(1440px, 92%); margin: 0 auto; }
-
+/* 5. HERO SECTION */
 .hero {
-  margin-top: 3rem; padding: 12rem 5rem; border-radius: var(--radius-lg);
-  background: var(--glass); border: 1px solid var(--glass-border);
-  box-shadow: 0 50px 100px rgba(0,0,0,0.5);
-  position: relative; overflow: hidden;
+  margin-top: 5rem;
+  padding: 10rem 4rem;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  backdrop-filter: blur(10px);
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 10vw, 8.5rem); line-height: 0.8; font-weight: 900;
-  letter-spacing: -0.05em; margin: 2rem 0;
-  background: linear-gradient(to bottom, #fff 50%, #444);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  font-size: clamp(3rem, 10vw, 8rem);
+  line-height: 0.85;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  margin: 2rem 0;
+  color: #fff;
 }
 
 .pill {
-  display: inline-block; padding: 0.6rem 1.5rem;
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
-  color: #fff; border-radius: 100px;
-  font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #fff;
+  border-radius: 100px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.hero-stats { display: flex; gap: 2rem; margin-top: 4rem; }
-.stat-chip { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; border-left: 2px solid var(--primary); padding-left: 1rem; }
+.hero-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 4rem;
+}
 
-/* --- 5. PRODUCT GRIDS & CARDS --- */
+.stat-chip {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  border-left: 2px solid var(--secondary);
+  padding-left: 1rem;
+}
+
+/* 6. BUTTONS */
+.btn-primary {
+  background: #fff;
+  color: #000;
+  padding: 1.2rem 3rem;
+  border-radius: 100px;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: var(--secondary);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(109, 94, 252, 0.3);
+}
+
+/* 7. GRID & PRODUCTS */
 .section { margin: 8rem 0; }
 .section-top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
-.section-label { font-size: 0.7rem; font-weight: 900; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.5rem; }
+.section-label { color: var(--primary); font-weight: 900; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.2em; }
 
 .product-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 3rem;
 }
 
 .product-card {
-  background: var(--glass); border: 1px solid var(--glass-border);
-  padding: 1.2rem; border-radius: 30px; transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 1.5rem;
+  border-radius: 30px;
+  transition: 0.5s;
 }
 
 .product-card:hover {
-  transform: translateY(-15px); border-color: var(--secondary);
-  box-shadow: 0 30px 60px rgba(45, 212, 191, 0.15);
-}
-
-.product-image-wrap {
-  aspect-ratio: 3/4; border-radius: 20px; overflow: hidden;
-  background: #111; margin-bottom: 1.5rem;
-}
-
-.product-card img { width: 100%; height: 100%; object-fit: cover; transition: 1.2s ease; }
-.product-card:hover img { transform: scale(1.1); }
-
-.product-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 0.5rem; color: #fff; }
-.price { font-weight: 900; color: #fff; font-size: 1.1rem; }
-
-/* --- 6. BUTTONS --- */
-.btn-primary {
-  display: block; width: 100%; padding: 1.2rem; border-radius: 100px;
-  background: #fff; color: #000; font-weight: 800; text-transform: uppercase;
-  font-size: 0.75rem; border: none; cursor: pointer; transition: 0.4s;
-  text-align: center; text-decoration: none; margin-top: 1.5rem;
-}
-
-.btn-primary:hover {
-  background: var(--secondary); color: #000;
-  box-shadow: 0 0 30px rgba(45, 212, 191, 0.4);
-}
-
-/* --- 7. ADMIN VAULT / LOCK --- */
-#admin-lock {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center;
-}
-
-.lock-box { background: #111; padding: 4rem; border-radius: 30px; border: 1px solid #222; text-align: center; }
-
-.secret-input {
-  background: transparent; border: 1px solid #333; color: #fff;
-  padding: 1.2rem; border-radius: 15px; margin-bottom: 1.5rem; width: 250px;
-  text-align: center; font-size: 1rem; outline: none;
-}
-
-/* --- 8. MOBILE RESPONSIVENESS --- */
-@media (max-width: 768px) {
-  .hero { padding: 6rem 2rem; }
-  .hero h1 { font-size: 3.5rem; }
-  .nav { display: none; } /* Use a burger menu for mobile later */
+  border-color: var(--secondary);
+  transform: translateY(-10px);
 }
