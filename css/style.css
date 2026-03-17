@@ -1,4 +1,6 @@
-/* --- OPALWAVE CLEAN NOIR 2026 --- */
+/* --- OPALWAVE MASTER BRANDING 2026 --- */
+/* Digital Luxury. Physical Form. */
+
 :root {
   --bg: #0a0a0b;           /* Deep Noir */
   --accent: #0070f3;       /* Electric Blue */
@@ -17,13 +19,21 @@ body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
 .container { width: min(1200px, 90%); margin: 0 auto; }
 
-/* 2. HEADER - MINIMALIST */
+/* 2. HEADER - STICKY & MINIMAL */
 .site-header {
-  padding: 2rem 0;
+  position: sticky; 
+  top: 0; 
+  z-index: 1000;
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1.5rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -38,11 +48,12 @@ body {
   text-decoration: none; color: var(--text-muted); font-weight: 600; 
   font-size: 0.75rem; text-transform: uppercase; margin-left: 2.5rem; transition: 0.2s;
 }
-.nav a:hover { color: var(--text); }
 
-/* 3. HERO - BOLD & SPACED */
+.nav a:hover, .nav a.active { color: var(--text); }
+
+/* 3. HERO SECTION */
 .hero {
-  padding: 10rem 0;
+  padding: 10rem 0 6rem 0;
   text-align: left;
 }
 
@@ -64,55 +75,162 @@ body {
   margin-bottom: 1rem;
 }
 
-/* 4. BUTTONS - THE "APPLE" FEEL */
+/* 4. BUTTONS */
 .btn-primary {
+  display: inline-block;
   background: #fff;
   color: #000;
   padding: 1.2rem 3rem;
-  border-radius: 4px; /* Sharp corners = More luxury */
+  border-radius: 4px; /* Sharp edge for luxury feel */
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8rem;
   border: none;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+  text-decoration: none;
+  text-align: center;
 }
 
 .btn-primary:hover {
   background: var(--accent);
   color: #fff;
+  transform: translateY(-2px);
 }
 
-/* 5. PRODUCT GRID */
-.section { margin-top: 8rem; }
-.section-label { color: var(--text-muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; margin-bottom: 1rem; }
+/* 5. CATEGORY CARDS (CURATED SERIES) */
+.category-card {
+  padding: 3rem;
+  background: var(--glass);
+  border: 1px solid var(--border);
+  transition: 0.4s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+  border-radius: 4px;
+}
+
+.category-card:hover { 
+  border-color: var(--accent); 
+  background: #111112; 
+}
+
+.category-number { 
+  font-size: 0.65rem; 
+  color: var(--accent); 
+  font-weight: 900; 
+  margin-bottom: 1.5rem; 
+}
+
+.category-card h3 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+/* 6. PRODUCT GRID & CARDS */
+.section { margin: 8rem 0; }
 
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 2.5rem;
   margin-top: 2rem;
 }
 
-.product-card {
-  transition: 0.4s;
-  cursor: pointer;
-}
+.product-card { transition: 0.4s; cursor: pointer; text-decoration: none; color: inherit; }
 
 .product-image-wrap {
-  aspect-ratio: 1/1; /* Square images look cleaner */
+  aspect-ratio: 1/1;
   background: #111;
   overflow: hidden;
   margin-bottom: 1.5rem;
   border: 1px solid var(--border);
 }
 
-.product-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: 0.5s; }
-.product-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+.product-card img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  filter: grayscale(100%); 
+  transition: 0.6s ease; 
+  opacity: 0.8; 
+}
+
+.product-card:hover img { 
+  transform: scale(1.05); 
+  filter: grayscale(0%); 
+  opacity: 1; 
+}
 
 .product-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
 .price { color: var(--text-muted); font-size: 0.9rem; }
 
-/* 6. STAT CHIPS */
+/* 7. BAG / CART PAGE LAYOUT */
+.bag-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.bag-item-info { display: flex; gap: 2.5rem; align-items: center; }
+
+.bag-item-img { 
+  width: 120px; 
+  height: 120px; 
+  background: #111; 
+  border: 1px solid var(--border); 
+  object-fit: cover; 
+}
+
+.bag-summary {
+  margin-top: 4rem;
+  padding: 3rem;
+  background: var(--glass);
+  text-align: right;
+  border: 1px solid var(--border);
+}
+
+.bag-total-price {
+  font-size: 3rem;
+  font-weight: 900;
+  margin: 0.5rem 0 2rem 0;
+}
+
+/* 8. HERO STATS & UTILITIES */
 .hero-stats { display: flex; gap: 3rem; margin-top: 5rem; }
-.stat-chip { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+.stat-chip { 
+  font-size: 0.6rem; 
+  color: var(--text-muted); 
+  text-transform: uppercase; 
+  letter-spacing: 0.1em; 
+  border-left: 1px solid var(--accent); 
+  padding-left: 1rem; 
+}
+
+.text-link {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.text-link:hover { color: var(--accent); padding-left: 5px; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 1s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
