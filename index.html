@@ -9,26 +9,26 @@
 </head>
 <body>
 
-  <div class="glow-orb" style="background: var(--primary); top: -10%; left: -10%;"></div>
-  <div class="glow-orb" style="background: var(--secondary); bottom: -10%; right: -10%;"></div>
+  <div class="glow-orb" style="background: var(--accent); top: -10%; left: -10%;"></div>
+  <div class="glow-orb" style="background: var(--accent); bottom: -10%; right: -10%; opacity: 0.1;"></div>
 
   <div id="site-header"></div>
 
   <main class="container">
+    
     <section class="hero reveal">
       <div class="hero-content">
         <span class="pill">Collection No. 04 — 2026</span>
-        
-        <h1>Digital Luxury.<br><span style="opacity: 0.5;">Physical Form.</span></h1>
+        <h1>Digital Luxury.<br><span style="opacity: 0.4;">Physical Form.</span></h1>
         
         <div class="hero-actions">
           <a href="shop.html" class="btn-primary" style="display:inline-block; width:auto; text-decoration:none;">Explore Drops</a>
         </div>
 
         <div class="hero-stats">
-          <div class="stat-chip"><strong>Bespoke Quality</strong></div>
-          <div class="stat-chip"><strong>Fluid Checkout</strong></div>
-          <div class="stat-chip"><strong>Global Shipping</strong></div>
+          <div class="stat-chip">Bespoke Quality</div>
+          <div class="stat-chip">Fluid Checkout</div>
+          <div class="stat-chip">Global Shipping</div>
         </div>
       </div>
     </section>
@@ -36,23 +36,46 @@
     <section class="section reveal">
       <div class="section-top">
         <div>
-          <p class="section-label">The Archive</p>
+          <p class="section-label">01 // The Archive</p>
           <h2>Curated Series</h2>
         </div>
       </div>
-      <div id="home-categories" class="product-grid"></div>
+      
+      <div class="product-grid">
+        <div class="category-card">
+          <span class="category-number">01</span>
+          <h3>Core Essentials</h3>
+          <p>The foundation of the digital wardrobe. High-density basics.</p>
+          <a href="shop.html?category=essentials" class="text-link">Browse Series →</a>
+        </div>
+
+        <div class="category-card">
+          <span class="category-number">02</span>
+          <h3>Technical Outerwear</h3>
+          <p>Physical protection for digital nomads. Weather-resistant drops.</p>
+          <a href="shop.html?category=outerwear" class="text-link">Browse Series →</a>
+        </div>
+
+        <div class="category-card">
+          <span class="category-number">03</span>
+          <h3>Limited Archive</h3>
+          <p>Rare iterations. Once they are gone, they are deleted forever.</p>
+          <a href="shop.html?category=archive" class="text-link">Browse Series →</a>
+        </div>
+      </div>
     </section>
 
     <section class="section reveal">
       <div class="section-top">
         <div>
-          <p class="section-label">Seasonal Drops</p>
+          <p class="section-label">02 // Seasonal Drops</p>
           <h2>Trending Now</h2>
         </div>
-        <a href="shop.html" class="text-link" style="color: var(--secondary); font-weight: 800; text-decoration: none;">View All Items →</a>
+        <a href="shop.html" class="text-link" style="color: var(--accent);">View All Items →</a>
       </div>
       <div id="featured-products" class="product-grid"></div>
     </section>
+
   </main>
 
   <div id="site-footer"></div>
