@@ -1,26 +1,37 @@
+/* --- OPALWAVE SHOP ENGINE 2026 --- */
+
 document.addEventListener("DOMContentLoaded", () => {
   const productsContainer = document.getElementById("shop-products");
   if (!productsContainer) return;
 
+  // Selectors from our new clean HTML
   const searchInput = document.getElementById("searchInput");
   const categoryFilter = document.getElementById("categoryFilter");
   const sortFilter = document.getElementById("sortFilter");
-  const stockOnly = document.getElementById("stockOnly");
   const resultsCount = document.getElementById("resultsCount");
   const resetBtn = document.getElementById("resetFilters");
 
+  // Get initial category from URL (e.g., ?category=outerwear)
   const params = new URLSearchParams(window.location.search);
-  const initialCategory = params.get("category") || "all";
+  let initialCategory = params.get("category") || "all";
 
-  const allProducts = getProducts();
-  const categories = getCategories(allProducts);
-
+  // Load Data
+  const allProducts = getProducts().filter(p => p.category !== 'electronics'); 
+  
+  // Setup Categories in Dropdown
+  const availableCategories = [...new Set(allProducts.map(p => p.category))];
+  
   categoryFilter.innerHTML = `
-    <option value="all">All Categories</option>
-    ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join("")}
+    <option value="all">ALL ARCHIVE</option>
+    ${availableCategories.map(cat => `
+      <option value="${cat}">${cat.toUpperCase()}</option>
+    `).join("")}
   `;
 
-  categoryFilter.value = initialCategory;
+  // Sync dropdown with URL parameter
+  if (availableCategories.includes(initialCategory)) {
+    categoryFilter.value = initialCategory;
+  }
 
   function render() {
     let filtered = [...allProducts];
@@ -28,55 +39,58 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchTerm = searchInput.value.trim().toLowerCase();
     const selectedCategory = categoryFilter.value;
     const sortValue = sortFilter.value;
-    const stockOnlyChecked = stockOnly.checked;
 
+    // 1. Search Logic
     if (searchTerm) {
       filtered = filtered.filter(product =>
         product.name.toLowerCase().includes(searchTerm) ||
-        product.description.toLowerCase().includes(searchTerm) ||
-        product.brand.toLowerCase().includes(searchTerm) ||
-        product.category.toLowerCase().includes(searchTerm)
+        product.description.toLowerCase().includes(searchTerm)
       );
     }
 
+    // 2. Category Logic
     if (selectedCategory !== "all") {
       filtered = filtered.filter(product => product.category === selectedCategory);
     }
 
-    if (stockOnlyChecked) {
-      filtered = filtered.filter(product => product.inStock);
-    }
-
+    // 3. Professional Sorting
     if (sortValue === "price-low") {
       filtered.sort((a, b) => a.price - b.price);
     } else if (sortValue === "price-high") {
       filtered.sort((a, b) => b.price - a.price);
-    } else if (sortValue === "name-asc") {
-      filtered.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+      // Default: Show newest/featured first (assuming array order or custom ID)
+      filtered.sort((a, b) => b.id - a.id);
     }
 
-    resultsCount.textContent = `${filtered.length} product${filtered.length === 1 ? "" : "s"}`;
+    // Update Result Count
+    resultsCount.textContent = `${filtered.length} ITEM${filtered.length === 1 ? "" : "S"}`;
 
-    if (!filtered.length) {
-      productsContainer.innerHTML = `<div class="empty-state">No products found.</div>`;
+    // Handle Empty State
+    if (filtered.length === 0) {
+      productsContainer.innerHTML = `
+        <div style="grid-column: 1/-1; padding: 100px 0; text-align: center; color: var(--text-muted);">
+          <p>No iterations found in this archive series.</p>
+        </div>`;
       return;
     }
 
+    // Render Grid using the global productCard function
     productsContainer.innerHTML = filtered.map(productCard).join("");
   }
 
+  // Event Listeners
   searchInput.addEventListener("input", render);
   categoryFilter.addEventListener("change", render);
   sortFilter.addEventListener("change", render);
-  stockOnly.addEventListener("change", render);
 
   resetBtn.addEventListener("click", () => {
     searchInput.value = "";
     categoryFilter.value = "all";
     sortFilter.value = "default";
-    stockOnly.checked = false;
     render();
   });
 
+  // Initial Run
   render();
 });
