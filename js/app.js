@@ -6,12 +6,13 @@ const CART_STORAGE_KEY = "opalwave_cart";
 const money = (v) => new Intl.NumberFormat("en-US", { 
   style: "currency", 
   currency: "USD", 
-  minimumFractionDigits: 0 
+  minimumFractionDigits: 2 
 }).format(v || 0);
 
 // Get products from storage or the window object
 function getProducts() {
   const stored = localStorage.getItem(PRODUCT_STORAGE_KEY);
+  // This ensures it prioritizes your hardcoded products.js list
   return stored ? JSON.parse(stored) : (window.products || []);
 }
 
@@ -21,13 +22,10 @@ window.addToCart = function(id) {
   const p = allProducts.find(item => item.id == id);
   if(!p) return;
 
-  // 1. Grab the size from the dropdown
   const sizeSelector = document.getElementById(`size-select-${id}`);
   const selectedSize = sizeSelector ? sizeSelector.value : "OS"; 
 
   let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
-  
-  // 2. Create unique ID for specific size
   const cartItemId = `${id}-${selectedSize}`;
   const existing = cart.find(i => i.cartId === cartItemId);
 
@@ -40,7 +38,7 @@ window.addToCart = function(id) {
   localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   renderHeader();
   
-  // 3. Button Feedback
+  // Button Feedback
   const btn = event.target;
   const oldText = btn.innerText;
   btn.innerText = `ADDED [${selectedSize}]`;
@@ -100,7 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHeader();
   renderFooter();
   
-  const grid = document.getElementById("product-grid");
+  // Checks for BOTH possible grid IDs (Homepage vs Shop page)
+  const grid = document.getElementById("featured-products") || document.getElementById("product-grid");
+  
   if (grid) {
     const products = getProducts();
     
@@ -109,8 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       grid.innerHTML = products.map(p => `
         <div class="product-card reveal">
-          <div class="image-wrap">
-            <img src="${p.image}" alt="${p.name}" loading="lazy">
+          <div class="image-wrap" style="position:relative; overflow:hidden; aspect-ratio:1/1;">
+            <img src="${p.image}" alt="${p.name}" class="main-img" style="width:100%; transition: opacity 0.3s;">
+            ${p.hoverImage ? `<img src="${p.hoverImage}" class="hover-img" style="position:absolute; top:0; left:0; width:100%; opacity:0; transition: opacity 0.3s;">` : ''}
           </div>
           <div class="product-info">
             <span class="category">${p.category || 'Archive'}</span>
@@ -128,9 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `).join("");
+
+      // Re-trigger reveal animations for the new elements
+      setTimeout(initReveal, 100);
     }
   }
-  
-  // Start animations after content is loaded
+});
   setTimeout(initReveal, 100);
 });
