@@ -16,14 +16,32 @@
       <h1 style="font-size: clamp(3rem, 8vw, 6rem);">Your Bag.</h1>
     </section>
 
-    <div id="bag-container" class="section">
+    <div id="bag-container" class="section" style="display: grid; grid-template-columns: 1fr 350px; gap: 4rem; align-items: start;">
+      
       <div id="bag-items-list">
         <p style="color: var(--text-muted); margin-bottom: 2rem;">Loading your selection...</p>
       </div>
+
+      <div id="bag-summary" class="category-card" style="position: sticky; top: 120px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);">
+        <h3 style="margin-bottom: 1.5rem;">Summary</h3>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; opacity: 0.7;">
+          <span>Subtotal</span>
+          <span id="bag-subtotal">$0.00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; font-weight: 900; font-size: 1.2rem;">
+          <span>Total</span>
+          <span id="bag-total">$0.00</span>
+        </div>
+        <button class="btn-primary" style="width: 100%; padding: 1.2rem;" onclick="alert('Proceeding to Secure Checkout...')">Checkout</button>
+      </div>
+
     </div>
   </main>
 
+  <footer id="site-footer"></footer>
+
   <script src="js/products.js"></script>
   <script src="js/app.js"></script>
-  <<script src="bag.js"></script>
+  <script src="js/bag.js"></script>
+</body>
 </html>
