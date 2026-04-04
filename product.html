@@ -3,20 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NovaCart | Product</title>
+  <title>Opalwave | Product Detail</title>
+  
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Quick styles to ensure the injected content looks premium */
+    #product-detail {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        padding: 120px 0 60px 0;
+    }
+    .size-btn {
+        padding: 0.8rem 1.5rem;
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+    }
+    .size-btn.active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+    }
+    .size-btn:hover:not(.active) {
+        border-color: var(--text);
+    }
+  </style>
 </head>
 <body>
-  <div id="site-header"></div>
+
+  <header id="site-header"></header>
 
   <main class="container">
-    <section id="product-detail"></section>
+    <section id="product-detail">
+        <div style="width: 100%; text-align: center;">
+            <p style="opacity: 0.3; letter-spacing: 0.2em;">LOADING ARCHIVE DATA...</p>
+        </div>
+    </section>
   </main>
 
-  <div id="site-footer"></div>
+  <footer id="site-footer"></footer>
 
   <script src="js/products.js"></script>
+  
   <script src="js/app.js"></script>
+  
   <script src="js/product.js"></script>
+
 </body>
 </html>
