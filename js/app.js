@@ -37,40 +37,46 @@ function renderFooter() {
 
 /* --- PRODUCT RENDERING --- */
 function initProducts() {
-    // Looks for the homepage grid or the shop grid
     const grid = document.getElementById("featured-products") || document.getElementById("product-grid");
-    
     if (!grid) return;
 
-    // Check if window.products exists from products.js
-    const items = window.products || [];
+    // Pull products from products.js
+    let items = window.products || [];
+
+    // URL Category Filtering (for the Browse Series buttons)
+    const urlParams = new URLSearchParams(window.location.search);
+    const catFilter = urlParams.get('category');
+    
+    if (catFilter) {
+        items = items.filter(p => p.category.toUpperCase() === catFilter.toUpperCase());
+    }
 
     if (items.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">LOADING ARCHIVE...</p>`;
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; opacity: 0.5; padding: 5rem 0;">NO ITEMS FOUND IN THIS CATEGORY.</p>`;
         return;
     }
 
     grid.innerHTML = items.map(p => `
         <div class="product-card reveal">
-            <div class="product-image-wrap" style="position:relative;">
-                <img src="${p.image}" alt="${p.name}" class="main-img">
+            <div class="product-image-wrap" style="position:relative; overflow:hidden;">
+                <img src="${p.image}" alt="${p.name}" class="main-img" style="width:100%; display:block;">
                 ${p.hoverImage ? `<img src="${p.hoverImage}" class="hover-img" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0; transition: 0.4s;">` : ''}
             </div>
             <div class="product-info" style="margin-top: 1.5rem;">
-                <span class="pill" style="font-size: 0.6rem; margin-bottom: 0.5rem;">${p.category}</span>
-                <div class="product-title">${p.name}</div>
-                <p class="price">${money(p.price)}</p>
-                <button class="btn-primary" style="width:100%; padding: 0.8rem; margin-top: 1rem; font-size: 0.7rem;" onclick="location.href='product.html?id=${p.id}'">
+                <span class="pill" style="font-size: 0.6rem; margin-bottom: 0.5rem; display:inline-block;">${p.category}</span>
+                <div class="product-title" style="font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">${p.name}</div>
+                <p class="price" style="opacity:0.6; margin-top:0.5rem;">${money(p.price)}</p>
+                <button class="btn-primary" style="width:100%; padding: 0.8rem; margin-top: 1rem; font-size: 0.7rem; cursor:pointer;" onclick="location.href='product.html?id=${p.id}'">
                     View Archive
                 </button>
             </div>
         </div>
     `).join("");
 
-    // Trigger animations
+    // Trigger reveal animations
     setTimeout(() => {
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
-    }, 300);
+    }, 100);
 }
 
 /* --- START ENGINE --- */
