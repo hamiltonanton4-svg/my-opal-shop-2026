@@ -7,9 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function renderBag() {
     const listContainer = document.getElementById("bag-items-list");
     const subtotalEl = document.getElementById("bag-subtotal");
-    const totalEl = document.getElementById("bag-total");
+    const totalEl = document.getElementById("bag-total-amount"); // Matches your HTML exactly
     
-    // 1. Get the items from memory
     const cart = JSON.parse(localStorage.getItem("opalwave_cart") || "[]");
 
     if (!listContainer) return;
@@ -69,9 +68,7 @@ async function handleCheckout() {
     // Initialize Stripe using the key from products.js
     const stripe = Stripe(window.stripeKey);
 
-    // Prepare line items for Stripe
     const lineItems = cart.map(item => {
-        // Find the full product data to get the Stripe Price ID
         const productData = window.products.find(p => p.id === item.id);
         
         if (!productData || !productData.stripePriceId || productData.stripePriceId.includes("PASTE")) {
@@ -90,7 +87,6 @@ async function handleCheckout() {
         return;
     }
 
-    // Redirect to Stripe Secure Checkout
     const { error } = await stripe.redirectToCheckout({
         lineItems: lineItems,
         mode: 'payment',
