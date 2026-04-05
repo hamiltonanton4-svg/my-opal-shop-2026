@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Order Confirmed | Opalwave</title>
-  <link rel="stylesheet" href="css/style.css">
+  <title>Order Confirmed | Opalwave Archive</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="bg-black text-white flex items-center justify-center min-h-screen px-6 overflow-hidden">
+<body class="bg-black text-white flex items-center justify-center min-h-screen px-6 overflow-hidden font-['Inter']">
   
   <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -19,19 +20,35 @@
       </svg>
     </div>
 
-    <h1 class="text-4xl font-bold mb-4 tracking-tighter uppercase italic">Order Confirmed</h1>
-    <p class="text-zinc-400 mb-10 leading-relaxed">
-      Your payment was successful. We are currently processing your Opalwave order. 
-      Check your email for a receipt and tracking details.
+    <h1 class="text-4xl font-black mb-4 tracking-tighter uppercase italic">Order Confirmed</h1>
+    <p class="text-zinc-400 mb-10 leading-relaxed text-sm">
+      Your payment was successful. We are currently processing your **Opalwave Archive** selection. 
+      Check your email for a receipt and tracking details once the drop ships.
     </p>
 
     <div class="flex flex-col gap-4">
-      <a href="index.html" class="block w-full py-4 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-zinc-200 transition-all italic">
+      <a href="index.html" class="block w-full py-4 bg-white text-black font-black uppercase tracking-widest text-[10px] hover:bg-zinc-200 transition-all italic">
         Return to Home
       </a>
-      <p class="text-[10px] uppercase tracking-[0.2em] text-zinc-600">Opalwave Secure Transaction Complete</p>
+      <p class="text-[9px] uppercase tracking-[0.3em] text-zinc-600 font-bold">
+        Opalwave Secure Transaction Complete
+      </p>
     </div>
   </div>
+
+  <script>
+    /**
+     * Once the user reaches this page, the transaction is finished.
+     * We clear the local storage so the bag shows 0 items.
+     */
+    window.onload = () => {
+        // Clear the cart from browser memory
+        localStorage.removeItem("opalwave_cart");
+        
+        // Console log for debugging the reset
+        console.log("Opalwave Archive Bag: Reset to Zero.");
+    };
+  </script>
 
 </body>
 </html>
