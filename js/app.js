@@ -1,7 +1,7 @@
 /* --- OPALWAVE MASTER ENGINE 2026 --- */
 const CART_STORAGE_KEY = "opalwave_cart";
 
-// Format numbers to USD Currency
+// Format numbers to USD Currency - Removed manual $ to prevent double symbols
 const money = (v) => new Intl.NumberFormat("en-US", { 
     style: "currency", 
     currency: "USD" 
@@ -12,12 +12,12 @@ function renderHeader() {
     const header = document.getElementById("site-header");
     if (!header) return;
 
-    // Calculate total items in bag from localStorage
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     const count = cart.reduce((total, item) => total + item.quantity, 0);
     
+    // Using a semantic <header> tag for better SEO/Structure
     header.innerHTML = `
-    <div class="site-header">
+    <header class="site-header">
         <div class="container header-inner">
             <a href="index.html" class="logo">Opalwave</a>
             <nav class="nav">
@@ -26,7 +26,7 @@ function renderHeader() {
                 <a href="bag.html" class="bag-link">Bag [${count}]</a>
             </nav>
         </div>
-    </div>`;
+    </header>`;
 }
 
 /* --- UI COMPONENT: FOOTER --- */
@@ -34,21 +34,21 @@ function renderFooter() {
     const footer = document.getElementById("site-footer");
     if (!footer) return;
     footer.innerHTML = `
-    <div class="container" style="padding: 4rem 0; border-top: 1px solid var(--border); margin-top: 5rem;">
-        <p style="font-size: 0.7rem; opacity: 0.5; letter-spacing: 0.2em;">© 2026 OPALWAVE ARCHIVE. DIGITAL LUXURY.</p>
+    <div class="container" style="padding: 6rem 0; border-top: 1px solid var(--border); margin-top: 5rem; text-align: center;">
+        <p style="font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.3em; text-transform: uppercase;">
+            © 2026 OPALWAVE ARCHIVE. DIGITAL LUXURY. PHYSICAL FORM.
+        </p>
     </div>`;
 }
 
 /* --- PRODUCT GRID ENGINE --- */
 function initProducts() {
-    // Looks for 'featured-products' (Home) or 'product-grid' (Shop)
     const grid = document.getElementById("featured-products") || document.getElementById("product-grid");
     if (!grid) return;
 
-    // Get data from products.js
     let items = window.products || [];
 
-    // URL Filtering Logic (for Category links)
+    // URL Filtering Logic
     const urlParams = new URLSearchParams(window.location.search);
     const catFilter = urlParams.get('category');
     
@@ -56,36 +56,36 @@ function initProducts() {
         items = items.filter(p => p.category.toUpperCase() === catFilter.toUpperCase());
     }
 
-    // If no items, show empty state
     if (items.length === 0) {
-        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; opacity: 0.5; padding: 5rem 0;">NO ITEMS FOUND IN THIS SERIES.</p>`;
+        grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; opacity: 0.5; padding: 10rem 0; letter-spacing: 2px;">NO ITEMS FOUND IN THIS SERIES.</p>`;
         return;
     }
 
-    // Map through items and inject HTML
+    // Map through items - Note: money(p.price) handles the $ sign
     grid.innerHTML = items.map(p => `
         <div class="product-card reveal">
-            <div class="product-image-wrap" style="position:relative; overflow:hidden; background: #0a0a0a;">
-                <img src="${p.image}" alt="${p.name}" class="main-img" style="width:100%; display:block; aspect-ratio: 1/1; object-fit: cover;">
+            <div class="product-image-wrap" onclick="location.href='product.html?id=${p.id}'" style="cursor:pointer;">
+                <img src="${p.image}" alt="${p.name}" class="main-img">
             </div>
             <div class="product-info" style="margin-top: 1.5rem;">
                 <span class="pill" style="font-size: 0.6rem; margin-bottom: 0.5rem; display:inline-block;">${p.category}</span>
-                <div class="product-title" style="font-weight:700; text-transform:uppercase; letter-spacing:0.05em;">${p.name}</div>
-                <p class="price" style="opacity:0.6; margin-top:0.5rem;">${money(p.price)}</p>
-                <button class="btn-primary" style="width:100%; padding: 0.8rem; margin-top: 1rem; font-size: 0.7rem; cursor:pointer;" onclick="location.href='product.html?id=${p.id}'">
-                    View Archive
+                <div class="product-title" style="font-weight:900; text-transform:uppercase; letter-spacing:0.05em; font-size: 0.9rem;">${p.name}</div>
+                <p class="price" style="opacity:0.6; margin-top:0.5rem; font-weight: 700;">${money(p.price)}</p>
+                
+                <button class="btn-primary" style="width:100%; padding: 1rem; margin-top: 1.5rem; font-size: 0.7rem;" onclick="location.href='product.html?id=${p.id}'">
+                    VIEW PIECE
                 </button>
             </div>
         </div>
     `).join("");
 
-    // Trigger reveal animations after a short delay
+    // Trigger reveal animations
     setTimeout(() => {
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
-    }, 100);
+    }, 150);
 }
 
-/* --- BOOT ENGINE ON LOAD --- */
+/* --- BOOT ENGINE --- */
 document.addEventListener("DOMContentLoaded", () => {
     renderHeader();
     renderFooter();
