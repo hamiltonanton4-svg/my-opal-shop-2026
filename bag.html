@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Opalwave | Your Bag</title>
+  <title>OPALWAVE | ARCHIVE BAG</title>
   
   <link rel="stylesheet" href="css/style.css" /> 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
@@ -15,40 +15,53 @@
   <div id="site-header"></div>
 
   <main class="container">
-    <section class="hero reveal active" style="padding: 8rem 0 2rem 0;">
-      <span class="pill">Selected Archive</span>
-      <h1 style="font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; letter-spacing: -0.04em;">Your Bag.</h1>
+    <section class="hero reveal active" style="padding: 10rem 0 3rem 0;">
+      <span class="pill">Current Selection</span>
+      <h1 style="font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 900; letter-spacing: -0.05em; line-height: 0.9;">
+        YOUR<br>BAG.
+      </h1>
     </section>
 
-    <div id="bag-container" class="section" style="display: grid; grid-template-columns: 1fr 350px; gap: 4rem; align-items: start; margin-top: 2rem;">
+    <div id="bag-container" style="display: grid; grid-template-columns: 1fr 380px; gap: 5rem; align-items: start; margin-bottom: 10rem;">
       
       <div id="bag-items-list">
-        <p style="color: var(--text-muted); margin-bottom: 2rem; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px;">
-            Authenticating selection...
-        </p>
+        <div style="padding: 4rem 0; border-top: 1px solid var(--border);">
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem; opacity: 0.5;">
+                Authenticating Archive Selection...
+            </p>
+        </div>
       </div>
 
-      <div id="bag-summary" class="category-card" style="position: sticky; top: 120px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 2rem;">
-        <h3 style="margin-bottom: 1.5rem; text-transform: uppercase; font-size: 1.2rem; font-weight: 900;">Summary</h3>
+      <aside id="bag-summary" style="position: sticky; top: 120px; background: #0a0a0b; border: 1px solid var(--border); padding: 2.5rem;">
+        <h3 style="text-transform: uppercase; font-size: 1.2rem; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+            Order Summary
+        </h3>
         
-        <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; opacity: 0.7; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">
-          <span>Subtotal</span>
-          <span id="bag-subtotal">$0.00</span>
-        </div>
-        
-        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; font-weight: 900; font-size: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
-          <span>Total</span>
-          <span id="bag-total-amount">$0.00</span> 
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+          <span style="opacity: 0.5; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Subtotal</span>
+          <span id="bag-subtotal" style="font-weight: 700;">$0.00</span>
         </div>
 
-        <button id="checkout-btn" class="btn-primary" style="width: 100%; padding: 1.2rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+          <span style="opacity: 0.5; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Shipping</span>
+          <span style="font-size: 0.8rem; text-transform: uppercase;">Calculated at Checkout</span>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin-top: 2rem; margin-bottom: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+          <span style="font-weight: 900; text-transform: uppercase; letter-spacing: 1px;">Total</span>
+          <span id="bag-total-amount" style="font-weight: 900; font-size: 1.8rem; letter-spacing: -0.02em;">$0.00</span> 
+        </div>
+
+        <button id="checkout-btn" class="btn-primary" style="width: 100%; padding: 1.5rem; font-weight: 900; letter-spacing: 1px;">
             PROCEED TO CHECKOUT
         </button>
         
-        <p style="font-size: 0.6rem; opacity: 0.4; text-align: center; margin-top: 1.5rem; text-transform: uppercase; letter-spacing: 1px;">
-            Secure Encrypted Transaction
-        </p>
-      </div>
+        <div style="margin-top: 2rem; text-align: center;">
+            <p style="font-size: 0.6rem; opacity: 0.4; text-transform: uppercase; letter-spacing: 1.5px;">
+                Secure Checkout Powered by Stripe
+            </p>
+        </div>
+      </aside>
 
     </div>
   </main>
