@@ -5,7 +5,7 @@ const products = [
     name: "ARCHIVED PANTS",
     price: 60.00,
     stripePriceId: "price_1TIjRyQTBolXed9aIRflVtiT",
-    image: "assets/archived-pants.png", // Update with image_xxxxxx.jpg if needed
+    image: "assets/archived-pants.png",
     category: "ARCHIVE 001"
   },
   {
@@ -29,7 +29,7 @@ const products = [
     name: "CRUCIAL MESH [PURPLE]",
     price: 32.99,
     stripePriceId: "price_1TJ1UnQTBolXed9aHEOQic10",
-    image: "assets/image_a07106.jpg",
+    image: "assets/image_a07106.jpg", // Updated
     category: "ARCHIVE 001",
     description: "Deep midnight purple in our signature heavyweight double-mesh. Engineered for the ARCHIVE 001 series."
   },
@@ -38,7 +38,7 @@ const products = [
     name: "CRUCIAL MESH [BLUE]",
     price: 32.99,
     stripePriceId: "price_1TIjSrQTBolXed9arCBbLLTb",
-    image: "assets/image_a070df.jpg",
+    image: "assets/image_a070df.jpg", // Updated
     category: "ARCHIVE 001"
   },
   {
@@ -46,7 +46,7 @@ const products = [
     name: "CRUCIAL MESH [BLACK]",
     price: 32.99,
     stripePriceId: "price_1TIjS2QTBolXed9a6U39O87W",
-    image: "assets/image_a07100.jpg",
+    image: "assets/image_a07100.jpg", // Updated
     category: "ARCHIVE 001"
   },
   {
@@ -62,7 +62,7 @@ const products = [
     name: "FOF [SAND]",
     price: 25.50,
     stripePriceId: "price_1TIjLrQTBolXed9arK5SCEmO",
-    image: "assets/image_9f71a0.jpg",
+    image: "assets/image_9f71a0.jpg", // Updated
     category: "ARCHIVE 001"
   },
   {
@@ -70,7 +70,7 @@ const products = [
     name: "FOF [CHOCOLATE]",
     price: 25.50,
     stripePriceId: "price_1TIjMgQTBolXed9aepQHBYBB",
-    image: "assets/image_9f7218.png",
+    image: "assets/image_9f7218.png", // Updated
     category: "ARCHIVE 001"
   },
 
