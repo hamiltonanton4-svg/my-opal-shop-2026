@@ -1,4 +1,3 @@
-/* --- OPALWAVE BAG ENGINE 2026 --- */
 import products from './products.js';
 
 const CART_STORAGE_KEY = "opalwave_cart";
@@ -18,64 +17,45 @@ function renderBag() {
     if (!listContainer) return;
 
     if (cart.length === 0) {
-        listContainer.innerHTML = `
-            <div style="padding: 6rem 0; border: 1px dashed var(--border); text-align: center; background: rgba(255,255,255,0.01);">
-                <p style="opacity: 0.3; letter-spacing: 2px; font-size: 0.7rem; margin-bottom: 2rem;">YOUR ARCHIVE IS CURRENTLY EMPTY.</p>
-                <a href="index.html" class="text-link" style="font-size: 0.8rem; font-weight: 900;">RETURN TO COLLECTION →</a>
-            </div>`;
+        listContainer.innerHTML = `<p style="padding: 4rem 0; opacity: 0.5;">YOUR ARCHIVE IS EMPTY.</p>`;
         if (subtotalEl) subtotalEl.innerText = "$0.00";
         if (totalEl) totalEl.innerText = "$0.00";
         return;
     }
 
+    // 1. Render items and clear "Authenticating" message
     listContainer.innerHTML = cart.map((item, index) => `
-        <div class="bag-card" style="display: flex; gap: 2.5rem; padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); align-items: center;">
-            <div style="width: 130px; height: 160px; overflow: hidden; border: 1px solid var(--border);">
-                <img src="${item.image}" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            
+        <div class="bag-card" style="display: flex; gap: 2rem; padding: 2rem; border: 1px solid var(--border); margin-bottom: 1.5rem; background: rgba(255,255,255,0.02);">
+            <img src="${item.image}" style="width: 100px; height: 130px; object-fit: cover;">
             <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <div>
-                        <h3 style="font-weight: 900; text-transform: uppercase; font-size: 1.1rem; letter-spacing: -0.02em; margin-bottom: 0.5rem;">${item.name}</h3>
-                        <p style="font-size: 0.65rem; opacity: 0.4; text-transform: uppercase; letter-spacing: 1.5px;">SIZE: ${item.selectedSize}</p>
-                    </div>
-                    <p style="font-weight: 900; font-size: 1.1rem;">$${(Number(item.price) * item.quantity).toFixed(2)}</p>
-                </div>
-                
-                <div style="margin-top: 2.5rem;">
-                    <button class="remove-btn" data-index="${index}" style="background: none; border: none; color: #ff3333; font-size: 0.6rem; text-transform: uppercase; cursor: pointer; letter-spacing: 2px; padding: 0; font-weight: 700; opacity: 0.7;">
-                        [ REMOVE FROM ARCHIVE ]
-                    </button>
-                </div>
+                <h3 style="font-weight: 900; text-transform: uppercase;">${item.name}</h3>
+                <p style="font-size: 0.7rem; opacity: 0.5;">SIZE: ${item.selectedSize}</p>
+                <p style="font-weight: 900; margin-top: 1rem;">$${(Number(item.price) * item.quantity).toFixed(2)}</p>
+                <button class="remove-btn" data-index="${index}" style="background:none; border:none; color:red; cursor:pointer; font-size:0.6rem; margin-top:1rem; padding:0;">[ REMOVE ]</button>
             </div>
         </div>
     `).join("");
 
-    const subtotalValue = cart.reduce((sum, item) => {
-        const price = Number(item.price) || 0;
-        return sum + (price * item.quantity);
+    // 2. THE MATH FIX: Calculate totals
+    const totalValue = cart.reduce((sum, item) => {
+        return sum + (Number(item.price) * item.quantity);
     }, 0);
     
-    if (subtotalEl) subtotalEl.innerText = `$${subtotalValue.toFixed(2)}`;
-    if (totalEl) totalEl.innerText = `$${subtotalValue.toFixed(2)}`;
+    if (subtotalEl) subtotalEl.innerText = `$${totalValue.toFixed(2)}`;
+    if (totalEl) totalEl.innerText = `$${totalValue.toFixed(2)}`;
 
+    // 3. Remove Button Logic
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const index = e.currentTarget.getAttribute('data-index');
-            removeFromBag(index);
+            const idx = e.target.closest('button').dataset.index;
+            let tempCart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
+            tempCart.splice(idx, 1);
+            localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(tempCart));
+            renderBag();
         });
     });
 }
 
-function removeFromBag(index) {
-    let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
-    cart.splice(index, 1);
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    renderBag(); 
-}
-
-// --- STRIPE CHECKOUT ---
 function initCheckout() {
     const checkoutBtn = document.getElementById('checkout-btn');
     if (!checkoutBtn) return;
@@ -84,16 +64,15 @@ function initCheckout() {
         const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
         if (cart.length === 0) return;
 
-        checkoutBtn.innerText = "PREPARING ENCRYPTED SESSION...";
+        checkoutBtn.innerText = "REDIRECTING...";
         
-        // Pass the line items to Stripe
+        // This is where Stripe does its own calculation based on your Dashboard prices
+        const stripe = Stripe('pk_test_your_key_here'); // REPLACEME
+
         const lineItems = cart.map(item => ({
             price: item.stripePriceId,
             quantity: item.quantity
         }));
-
-        // Replace with your actual key
-        const stripe = Stripe('pk_test_your_key_here'); 
 
         const { error } = await stripe.redirectToCheckout({
             lineItems: lineItems,
@@ -103,7 +82,6 @@ function initCheckout() {
         });
 
         if (error) {
-            console.error("Stripe Error:", error);
             alert(error.message);
             checkoutBtn.innerText = "PROCEED TO CHECKOUT";
         }
