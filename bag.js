@@ -8,15 +8,20 @@ document.addEventListener("DOMContentLoaded", () => {
     initCheckout();
 });
 
+/**
+ * Renders the shopping cart UI based on localStorage data
+ */
 function renderBag() {
     const listContainer = document.getElementById("bag-items-list");
     const subtotalEl = document.getElementById("bag-subtotal");
     const totalEl = document.getElementById("bag-total-amount");
     
+    // 1. Load data from localStorage
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
 
     if (!listContainer) return;
 
+    // 2. Handle Empty State
     if (cart.length === 0) {
         listContainer.innerHTML = `
             <div style="padding: 6rem 0; border: 1px dashed var(--border); text-align: center; background: rgba(255,255,255,0.01);">
@@ -28,6 +33,7 @@ function renderBag() {
         return;
     }
 
+    // 3. Render items
     listContainer.innerHTML = cart.map((item, index) => `
         <div class="bag-card" style="display: flex; gap: 2.5rem; padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); align-items: center;">
             <div style="width: 130px; height: 160px; overflow: hidden; border: 1px solid var(--border);">
@@ -52,6 +58,7 @@ function renderBag() {
         </div>
     `).join("");
 
+    // 4. Calculate Summary Totals
     const totalValue = cart.reduce((sum, item) => {
         return sum + (Number(item.price) * item.quantity);
     }, 0);
@@ -59,6 +66,7 @@ function renderBag() {
     if (subtotalEl) subtotalEl.innerText = `$${totalValue.toFixed(2)}`;
     if (totalEl) totalEl.innerText = `$${totalValue.toFixed(2)}`;
 
+    // 5. Attach Remove Listeners
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const idx = e.currentTarget.dataset.index;
@@ -67,6 +75,9 @@ function renderBag() {
     });
 }
 
+/**
+ * Removes an item from the cart and updates the view
+ */
 function removeFromBag(index) {
     let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     cart.splice(index, 1);
@@ -74,6 +85,9 @@ function removeFromBag(index) {
     renderBag(); 
 }
 
+/**
+ * Initiates the Stripe Checkout process via Netlify Functions
+ */
 function initCheckout() {
     const checkoutBtn = document.getElementById('checkout-btn');
     if (!checkoutBtn) return;
@@ -82,27 +96,41 @@ function initCheckout() {
         const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
         if (cart.length === 0) return;
 
-        checkoutBtn.innerText = "OPENING SECURE SESSION...";
+        // Visual feedback
+        checkoutBtn.innerText = "OPENING SECURE CHECKOUT...";
         checkoutBtn.disabled = true;
 
-        // --- LIVE KEY INJECTED ---
-        const stripe = Stripe('pk_live_51T5VLIQTBolXed9akrMjf3yYGLKGwt8pvMQcB7NontbKSIspqwNghUeRaa1kjq11AuhVTtJzBIDZV5vkDJ2E1swg00xDAl0kmY'); 
-
-        const lineItems = cart.map(item => ({
-            price: item.stripePriceId,
+        // Prepare the data to match the backend 'items' requirement
+        const itemsToSend = cart.map(item => ({
+            name: item.name,
+            // Ensure the image URL is absolute for Stripe's servers
+            image: window.location.origin + '/' + item.image, 
+            price: item.price,
             quantity: item.quantity
         }));
 
-        const { error } = await stripe.redirectToCheckout({
-            lineItems: lineItems,
-            mode: 'payment',
-            successUrl: window.location.origin + '/success.html',
-            cancelUrl: window.location.origin + '/bag.html',
-        });
+        try {
+            // 1. Send the cart to your Netlify Function
+            const response = await fetch('/.netlify/functions/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: itemsToSend })
+            });
 
-        if (error) {
-            console.error("Stripe Redirect Error:", error);
-            alert(error.message);
+            const data = await response.json();
+
+            // 2. If the backend returns a URL, go there immediately
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error(data.error || "Unable to generate checkout session.");
+            }
+
+        } catch (err) {
+            console.error("GATEWAY_ERROR:", err);
+            alert("Checkout Error: " + err.message);
+            
+            // Reset button if it fails
             checkoutBtn.innerText = "PROCEED TO CHECKOUT";
             checkoutBtn.disabled = false;
         }
