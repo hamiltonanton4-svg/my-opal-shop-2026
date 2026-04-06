@@ -1,7 +1,6 @@
-/* --- OPALWAVE PRODUCT PAGE BUILDER --- */
+/* --- OPALWAVE PRODUCT PAGE BUILDER [GALLERY ENABLED] --- */
 import products from './products.js'; 
 
-// Track selection for the bag
 let selectedSize = null;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,22 +8,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const productId = urlParams.get('id');
     const detailContainer = document.getElementById("product-detail");
 
-    // Check if we have the data and the container
     if (!productId || !products || !detailContainer) return;
 
     const product = products.find(p => p.id === productId);
 
     if (product) {
-        // Fallbacks for missing data in products.js
-        const desc = product.description || "Premium heavyweight construction. Engineered for the OPALWAVE ARCHIVE series. limited run.";
+        const desc = product.description || "Premium heavyweight construction. Engineered for the OPALWAVE ARCHIVE series. Limited run.";
         const sizes = product.options || ["S", "M", "L", "XL"];
+        
+        // Gallery Check
+        const hasBackView = product.backImage ? true : false;
 
         detailContainer.innerHTML = `
             <div class="product-single-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 5rem; padding: 12rem 0 6rem 0;">
                 
-                <div class="product-image-wrap" style="aspect-ratio: 4/5; background: #0a0a0b; border: 1px solid var(--border);">
-                    <img id="product-image" src="${product.image}" alt="${product.name}" 
-                         style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="gallery-column">
+                    <div class="product-image-wrap" style="aspect-ratio: 4/5; background: #0a0a0b; border: 1px solid var(--border); overflow: hidden;">
+                        <img id="main-viewport" src="${product.image}" alt="${product.name}" 
+                             style="width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease;">
+                    </div>
+                    
+                    ${hasBackView ? `
+                    <div class="thumbnail-row" style="display: flex; gap: 12px; margin-top: 1.5rem;">
+                        <img id="view-front" src="${product.image}" style="width: 70px; height: 90px; object-fit: cover; border: 1px solid var(--text); cursor: pointer; opacity: 1;">
+                        <img id="view-back" src="${product.backImage}" style="width: 70px; height: 90px; object-fit: cover; border: 1px solid var(--border); cursor: pointer; opacity: 0.5;">
+                    </div>
+                    ` : ''}
                 </div>
 
                 <div class="product-info-container">
@@ -61,22 +70,41 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        // Attach listeners after the HTML is injected
+        // 1. GALLERY EVENT LISTENERS
+        if (hasBackView) {
+            const viewport = document.getElementById('main-viewport');
+            const frontBtn = document.getElementById('view-front');
+            const backBtn = document.getElementById('view-back');
+
+            frontBtn.addEventListener('click', () => {
+                viewport.src = product.image;
+                frontBtn.style.borderColor = 'var(--text)';
+                frontBtn.style.opacity = '1';
+                backBtn.style.borderColor = 'var(--border)';
+                backBtn.style.opacity = '0.5';
+            });
+
+            backBtn.addEventListener('click', () => {
+                viewport.src = product.backImage;
+                backBtn.style.borderColor = 'var(--text)';
+                backBtn.style.opacity = '1';
+                frontBtn.style.borderColor = 'var(--border)';
+                frontBtn.style.opacity = '0.5';
+            });
+        }
+
+        // 2. SIZE SELECTION LISTENERS
         document.querySelectorAll('.size-btn').forEach(btn => {
             btn.addEventListener('click', () => setProductSize(btn, btn.dataset.size));
         });
 
+        // 3. BAG LISTENER
         document.getElementById('add-to-bag-btn').addEventListener('click', () => {
             handleAddToBag(product);
         });
 
     } else {
-        detailContainer.innerHTML = `
-            <div style="text-align:center; padding: 10rem 0;">
-                <h1 style="font-size: 3rem; font-weight: 900;">404. ITEM NOT FOUND</h1>
-                <p style="opacity: 0.5; margin-bottom: 2rem;">This piece is not currently in the archive.</p>
-                <a href="index.html" class="btn-primary">RETURN TO HOME</a>
-            </div>`;
+        detailContainer.innerHTML = `<div style="text-align:center; padding:10rem 0;"><h1>404. PIECE NOT FOUND</h1><a href="index.html" class="btn-primary">BACK</a></div>`;
     }
 });
 
@@ -86,11 +114,9 @@ function setProductSize(btn, size) {
         b.style.color = "var(--text)";
         b.style.borderColor = "var(--border)";
     });
-    
     btn.style.background = "var(--accent)";
     btn.style.color = "#fff";
     btn.style.borderColor = "var(--accent)";
-    
     selectedSize = size;
 }
 
@@ -113,7 +139,6 @@ function handleAddToBag(product) {
     };
 
     const existing = cart.findIndex(i => i.id === product.id && i.selectedSize === selectedSize);
-    
     if (existing > -1) {
         cart[existing].quantity += 1;
     } else {
@@ -123,13 +148,11 @@ function handleAddToBag(product) {
     localStorage.setItem("opalwave_cart", JSON.stringify(cart));
     
     const btn = document.getElementById('add-to-bag-btn');
-    const originalText = btn.innerHTML;
-    
     btn.innerHTML = "ADDED TO BAG ✓";
     btn.style.background = "#22c55e"; 
     
     setTimeout(() => {
-        btn.innerHTML = originalText;
+        btn.innerHTML = "ADD TO ARCHIVE BAG";
         btn.style.background = ""; 
     }, 2000);
 }
