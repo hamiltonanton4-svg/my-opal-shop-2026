@@ -5,7 +5,7 @@ const products = [
     name: "ARCHIVED PANTS",
     price: 60.00,
     stripePriceId: "price_1TIjRyQTBolXed9aIRflVtiT",
-    image: "assets/archived-pants.png",
+    image: "assets/pants-grey-front.png", // Updated
     category: "ARCHIVE 001"
   },
   {
@@ -13,7 +13,7 @@ const products = [
     name: "WORLD KRISIS [FOREST]",
     price: 50.00,
     stripePriceId: "price_1TIjQMQTBolXed9amg570AO6",
-    image: "assets/world-krisis-forest.png",
+    image: "assets/krisis-green.png", // Updated
     category: "ARCHIVE 001"
   },
   {
@@ -21,7 +21,7 @@ const products = [
     name: "WORLD KRISIS [PURPLE]",
     price: 50.00,
     stripePriceId: "price_1TIjPQQTBolXed9acL8ZEv7Y",
-    image: "assets/world-krisis-purple.png",
+    image: "assets/krisis-purple.png", // Updated
     category: "ARCHIVE 001"
   },
   {
@@ -29,16 +29,15 @@ const products = [
     name: "CRUCIAL MESH [PURPLE]",
     price: 32.99,
     stripePriceId: "price_1TJ1UnQTBolXed9aHEOQic10",
-    image: "assets/image_a07106.jpg", // Updated
-    category: "ARCHIVE 001",
-    description: "Deep midnight purple in our signature heavyweight double-mesh. Engineered for the ARCHIVE 001 series."
+    image: "assets/image_a07106.jpg",
+    category: "ARCHIVE 001"
   },
   {
     id: "crucial-mesh-blue",
     name: "CRUCIAL MESH [BLUE]",
     price: 32.99,
     stripePriceId: "price_1TIjSrQTBolXed9arCBbLLTb",
-    image: "assets/image_a070df.jpg", // Updated
+    image: "assets/image_a070df.jpg",
     category: "ARCHIVE 001"
   },
   {
@@ -46,7 +45,7 @@ const products = [
     name: "CRUCIAL MESH [BLACK]",
     price: 32.99,
     stripePriceId: "price_1TIjS2QTBolXed9a6U39O87W",
-    image: "assets/image_a07100.jpg", // Updated
+    image: "assets/image_a07100.jpg",
     category: "ARCHIVE 001"
   },
   {
@@ -62,7 +61,7 @@ const products = [
     name: "FOF [SAND]",
     price: 25.50,
     stripePriceId: "price_1TIjLrQTBolXed9arK5SCEmO",
-    image: "assets/image_9f71a0.jpg", // Updated
+    image: "assets/image_9f71a0.jpg",
     category: "ARCHIVE 001"
   },
   {
@@ -70,7 +69,7 @@ const products = [
     name: "FOF [CHOCOLATE]",
     price: 25.50,
     stripePriceId: "price_1TIjMgQTBolXed9aepQHBYBB",
-    image: "assets/image_9f7218.png", // Updated
+    image: "assets/image_9f7218.png",
     category: "ARCHIVE 001"
   },
 
@@ -104,7 +103,7 @@ const products = [
     name: "STARFALL SHORTS",
     price: 34.99,
     stripePriceId: "price_1TIjUYQTBolXed9ax2GLAqH9",
-    image: "assets/starfall-shorts.png",
+    image: "assets/starfall-front.png", // Updated
     category: "SUMMER 26"
   },
 
@@ -114,7 +113,7 @@ const products = [
     name: "NONSENSE TEE",
     price: 29.99,
     stripePriceId: "price_1TIjVoQTBolXed9aPas6s6S0",
-    image: "assets/nonsense-tee.png",
+    image: "assets/nonsense-front.png", // Updated
     category: "ESSENTIALS"
   }
 ];
