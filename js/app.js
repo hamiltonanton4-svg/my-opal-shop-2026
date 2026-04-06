@@ -1,5 +1,5 @@
 /* --- OPALWAVE MASTER ENGINE 2026 --- */
-import products from './products.js'; // 1. ADDED THIS IMPORT
+import products from './products.js'; 
 
 const CART_STORAGE_KEY = "opalwave_cart";
 
@@ -47,7 +47,6 @@ function initProducts() {
     const grid = document.getElementById("featured-products") || document.getElementById("product-grid");
     if (!grid) return;
 
-    // 2. UPDATED THIS TO USE THE IMPORTED products
     let items = products || [];
 
     // URL Filtering Logic
@@ -63,20 +62,23 @@ function initProducts() {
         return;
     }
 
+    // UPDATED: Wrapped in <a> tags and removed onclick for Module compatibility
     grid.innerHTML = items.map(p => `
         <div class="product-card reveal">
-            <div class="product-image-wrap" onclick="location.href='product.html?id=${p.id}'" style="cursor:pointer;">
-                <img src="${p.image}" alt="${p.name}" class="main-img">
-            </div>
-            <div class="product-info" style="margin-top: 1.5rem;">
-                <span class="pill" style="font-size: 0.6rem; margin-bottom: 0.5rem; display:inline-block;">${p.category}</span>
-                <div class="product-title" style="font-weight:900; text-transform:uppercase; letter-spacing:0.05em; font-size: 0.9rem;">${p.name}</div>
-                <p class="price" style="opacity:0.6; margin-top:0.5rem; font-weight: 700;">${money(p.price)}</p>
-                
-                <button class="btn-primary" style="width:100%; padding: 1rem; margin-top: 1.5rem; font-size: 0.7rem;" onclick="location.href='product.html?id=${p.id}'">
-                    VIEW PIECE
-                </button>
-            </div>
+            <a href="product.html?id=${p.id}" style="text-decoration: none; color: inherit; display: block;">
+                <div class="product-image-wrap">
+                    <img src="${p.image}" alt="${p.name}" class="main-img" onerror="this.src='https://via.placeholder.com/600x800?text=IMAGE+MISSING'">
+                </div>
+                <div class="product-info" style="margin-top: 1.5rem;">
+                    <span class="pill" style="font-size: 0.6rem; margin-bottom: 0.5rem; display:inline-block;">${p.category}</span>
+                    <div class="product-title" style="font-weight:900; text-transform:uppercase; letter-spacing:0.05em; font-size: 0.9rem;">${p.name}</div>
+                    <p class="price" style="opacity:0.6; margin-top:0.5rem; font-weight: 700;">${money(p.price)}</p>
+                    
+                    <div class="btn-primary" style="width:100%; padding: 1rem; margin-top: 1.5rem; font-size: 0.7rem; text-align: center;">
+                        VIEW PIECE
+                    </div>
+                </div>
+            </a>
         </div>
     `).join("");
 
