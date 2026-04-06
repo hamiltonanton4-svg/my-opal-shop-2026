@@ -13,12 +13,10 @@ function renderBag() {
     const subtotalEl = document.getElementById("bag-subtotal");
     const totalEl = document.getElementById("bag-total-amount");
     
-    // 1. Load the archive data from storage
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
 
     if (!listContainer) return;
 
-    // 2. Handle the "Empty Archive" state
     if (cart.length === 0) {
         listContainer.innerHTML = `
             <div style="padding: 6rem 0; border: 1px dashed var(--border); text-align: center; background: rgba(255,255,255,0.01);">
@@ -30,7 +28,6 @@ function renderBag() {
         return;
     }
 
-    // 3. Render items with high-fidelity formatting
     listContainer.innerHTML = cart.map((item, index) => `
         <div class="bag-card" style="display: flex; gap: 2.5rem; padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); align-items: center;">
             <div style="width: 130px; height: 160px; overflow: hidden; border: 1px solid var(--border);">
@@ -55,8 +52,6 @@ function renderBag() {
         </div>
     `).join("");
 
-    // 4. THE MATH: Calculate Summary Totals
-    // We use Number() to ensure no "text addition" bugs occur
     const subtotalValue = cart.reduce((sum, item) => {
         const price = Number(item.price) || 0;
         return sum + (price * item.quantity);
@@ -65,7 +60,6 @@ function renderBag() {
     if (subtotalEl) subtotalEl.innerText = `$${subtotalValue.toFixed(2)}`;
     if (totalEl) totalEl.innerText = `$${subtotalValue.toFixed(2)}`;
 
-    // 5. Attach event listeners to remove buttons
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = e.currentTarget.getAttribute('data-index');
@@ -78,3 +72,40 @@ function removeFromBag(index) {
     let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     cart.splice(index, 1);
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    renderBag(); 
+}
+
+// --- STRIPE CHECKOUT ---
+function initCheckout() {
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (!checkoutBtn) return;
+
+    checkoutBtn.addEventListener('click', async () => {
+        const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+        if (cart.length === 0) return;
+
+        checkoutBtn.innerText = "PREPARING ENCRYPTED SESSION...";
+        
+        // Pass the line items to Stripe
+        const lineItems = cart.map(item => ({
+            price: item.stripePriceId,
+            quantity: item.quantity
+        }));
+
+        // Replace with your actual key
+        const stripe = Stripe('pk_test_your_key_here'); 
+
+        const { error } = await stripe.redirectToCheckout({
+            lineItems: lineItems,
+            mode: 'payment',
+            successUrl: window.location.origin + '/success.html',
+            cancelUrl: window.location.origin + '/bag.html',
+        });
+
+        if (error) {
+            console.error("Stripe Error:", error);
+            alert(error.message);
+            checkoutBtn.innerText = "PROCEED TO CHECKOUT";
+        }
+    });
+}
