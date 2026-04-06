@@ -12,12 +12,10 @@ function renderBag() {
     const subtotalEl = document.getElementById("bag-subtotal");
     const totalEl = document.getElementById("bag-total-amount");
     
-    // 1. Pull data
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
 
     if (!listContainer) return;
 
-    // 2. Handle Empty State
     if (cart.length === 0) {
         listContainer.innerHTML = `
             <div style="padding: 4rem 0; border: 1px dashed var(--border); text-align: center;">
@@ -29,7 +27,6 @@ function renderBag() {
         return;
     }
 
-    // 3. Render Items
     listContainer.innerHTML = cart.map((item, index) => `
         <div class="bag-card" style="display: flex; gap: 2rem; padding: 2rem; border: 1px solid var(--border); margin-bottom: 1.5rem; background: rgba(255,255,255,0.01);">
             <img src="${item.image}" style="width: 120px; height: 150px; object-fit: cover; border: 1px solid var(--border);">
@@ -39,7 +36,7 @@ function renderBag() {
                         <h3 style="font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em;">${item.name}</h3>
                         <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 0.5rem;">SIZE: ${item.selectedSize}</p>
                     </div>
-                    <p style="font-weight: 900;">$${(item.price * item.quantity).toFixed(2)}</p>
+                    <p style="font-weight: 900;">$${(Number(item.price) * item.quantity).toFixed(2)}</p>
                 </div>
                 
                 <div style="margin-top: 2rem;">
@@ -51,17 +48,19 @@ function renderBag() {
         </div>
     `).join("");
 
-    // 4. CALCULATE SUMMARY (The Fix)
-    const totalValue = cart.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
+    // --- SUMMARY CALCULATION FIX ---
+    const totalValue = cart.reduce((sum, item) => {
+        const price = Number(item.price) || 0;
+        return sum + (price * item.quantity);
+    }, 0);
     
     if (subtotalEl) subtotalEl.innerText = `$${totalValue.toFixed(2)}`;
     if (totalEl) totalEl.innerText = `$${totalValue.toFixed(2)}`;
 
-    // 5. Attach Listeners to Remove Buttons
+    // Re-attach remove listeners
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const index = e.target.getAttribute('data-index');
-            removeFromBag(index);
+            removeFromBag(e.target.closest('button').dataset.index);
         });
     });
 }
@@ -70,15 +69,15 @@ function removeFromBag(index) {
     let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     cart.splice(index, 1);
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    renderBag(); // Re-render everything including totals
+    renderBag(); 
 }
 
-// --- STRIPE REDIRECT ---
 async function handleCheckout() {
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     if (cart.length === 0) return;
 
     const btn = document.getElementById('checkout-btn');
+    const originalText = btn.innerText;
     btn.innerText = "REDIRECTING...";
     
     const lineItems = cart.map(item => ({
@@ -86,7 +85,8 @@ async function handleCheckout() {
         quantity: item.quantity
     }));
 
-    const stripe = Stripe('YOUR_PUBLISHABLE_KEY'); // Enter your key here
+    // Replace with your actual Stripe Key
+    const stripe = Stripe('pk_test_your_key_here'); 
 
     const { error } = await stripe.redirectToCheckout({
         lineItems: lineItems,
@@ -97,11 +97,10 @@ async function handleCheckout() {
 
     if (error) {
         alert(error.message);
-        btn.innerText = "PROCEED TO CHECKOUT";
+        btn.innerText = originalText;
     }
 }
 
-// Checkout listener
 const checkoutBtn = document.getElementById('checkout-btn');
 if (checkoutBtn) {
     checkoutBtn.addEventListener('click', handleCheckout);
