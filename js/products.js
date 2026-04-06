@@ -96,6 +96,7 @@ const products = [
     price: 34.99,
     stripePriceId: "price_1TIjUYQTBolXed9ax2GLAqH9",
     image: "assets/starfall-front.png",
+    backImage: "assets/starfall-back.png", // Added
     category: "SUMMER 26"
   },
 
@@ -106,6 +107,7 @@ const products = [
     price: 29.99,
     stripePriceId: "price_1TIjVoQTBolXed9aPas6s6S0",
     image: "assets/nonsense-front.png",
+    backImage: "assets/nonsense-back.png", // Added
     category: "ESSENTIALS"
   }
 ];
