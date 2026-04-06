@@ -1,5 +1,4 @@
 /* --- OPALWAVE BAG ENGINE 2026 --- */
-// Updated path to reach the js folder from the root
 import products from './js/products.js';
 
 const CART_STORAGE_KEY = "opalwave_cart";
@@ -14,12 +13,10 @@ function renderBag() {
     const subtotalEl = document.getElementById("bag-subtotal");
     const totalEl = document.getElementById("bag-total-amount");
     
-    // 1. Load data from localStorage
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
 
     if (!listContainer) return;
 
-    // 2. Handle Empty State
     if (cart.length === 0) {
         listContainer.innerHTML = `
             <div style="padding: 6rem 0; border: 1px dashed var(--border); text-align: center; background: rgba(255,255,255,0.01);">
@@ -31,7 +28,6 @@ function renderBag() {
         return;
     }
 
-    // 3. Render items (This automatically clears the "Authenticating" message)
     listContainer.innerHTML = cart.map((item, index) => `
         <div class="bag-card" style="display: flex; gap: 2.5rem; padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); align-items: center;">
             <div style="width: 130px; height: 160px; overflow: hidden; border: 1px solid var(--border);">
@@ -56,7 +52,6 @@ function renderBag() {
         </div>
     `).join("");
 
-    // 4. Calculate Summary Totals
     const totalValue = cart.reduce((sum, item) => {
         return sum + (Number(item.price) * item.quantity);
     }, 0);
@@ -64,7 +59,6 @@ function renderBag() {
     if (subtotalEl) subtotalEl.innerText = `$${totalValue.toFixed(2)}`;
     if (totalEl) totalEl.innerText = `$${totalValue.toFixed(2)}`;
 
-    // 5. Attach Remove Listeners
     document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const idx = e.currentTarget.dataset.index;
@@ -77,7 +71,7 @@ function removeFromBag(index) {
     let cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     cart.splice(index, 1);
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    renderBag(); // Refresh the UI immediately
+    renderBag(); 
 }
 
 function initCheckout() {
@@ -88,11 +82,11 @@ function initCheckout() {
         const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
         if (cart.length === 0) return;
 
-        checkoutBtn.innerText = "REDIRECTING...";
+        checkoutBtn.innerText = "OPENING SECURE SESSION...";
         checkoutBtn.disabled = true;
 
-        // Replace with your actual Live or Test Publishable Key
-        const stripe = Stripe('pk_test_your_key_here'); 
+        // --- LIVE KEY INJECTED ---
+        const stripe = Stripe('pk_live_51T5VLIQTBolXed9akrMjf3yYGLKGwt8pvMQcB7NontbKSIspqwNghUeRaa1kjq11AuhVTtJzBIDZV5vkDJ2E1swg00xDAl0kmY'); 
 
         const lineItems = cart.map(item => ({
             price: item.stripePriceId,
