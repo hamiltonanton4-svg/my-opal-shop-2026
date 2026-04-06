@@ -1,4 +1,5 @@
 /* --- OPALWAVE PRODUCT PAGE BUILDER --- */
+import products from './products.js'; // 1. CRITICAL IMPORT
 
 // Track selection for the bag
 let selectedSize = null;
@@ -8,19 +9,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const productId = urlParams.get('id');
     const detailContainer = document.getElementById("product-detail");
 
-    // Ensure we have data and a place to put it
-    if (!productId || !window.products || !detailContainer) return;
+    // 2. Updated to use imported products
+    if (!productId || !products || !detailContainer) return;
 
-    const product = window.products.find(p => p.id === productId);
+    const product = products.find(p => p.id === productId);
 
     if (product) {
-        // Build the Page using your Branding Classes
+        // Fallback for missing description or options to prevent crashes
+        const desc = product.description || "Premium heavyweight construction. Engineered for the ARCHIVE 001 series.";
+        const sizes = product.options || ["S", "M", "L", "XL"];
+
         detailContainer.innerHTML = `
             <div class="product-single-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 5rem; padding: 12rem 0 6rem 0;">
                 
                 <div class="product-image-wrap" style="aspect-ratio: 4/5; background: #0a0a0b; border: 1px solid var(--border);">
                     <img id="product-image" src="${product.image}" alt="${product.name}" 
-                         style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(0%); opacity: 1;">
+                         style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
 
                 <div class="product-info-container">
@@ -34,19 +38,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     </p>
                     
                     <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 3rem; max-width: 480px; border-left: 1px solid var(--accent); padding-left: 1.5rem;">
-                        ${product.description}
+                        ${desc}
                     </p>
 
                     <div class="selection-area" style="margin-bottom: 4rem;">
                         <p class="stat-chip" style="margin-bottom: 1.5rem; border: none; padding: 0; opacity: 0.5;">SELECT ARCHIVE SIZE</p>
                         <div id="size-options" style="display: flex; gap: 12px;">
-                            ${product.options.map(size => `
-                                <button class="size-btn" onclick="setProductSize(this, '${size}')">${size}</button>
+                            ${sizes.map(size => `
+                                <button class="size-btn" data-size="${size}">${size}</button>
                             `).join('')}
                         </div>
                     </div>
 
-                    <button class="btn-primary" style="width: 100%;" onclick="handleAddToBag('${product.id}')">
+                    <button id="add-to-bag-btn" class="btn-primary" style="width: 100%;">
                         ADD TO ARCHIVE BAG
                     </button>
                     
@@ -56,14 +60,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
         `;
+
+        // 3. ATTACH EVENT LISTENERS (The "Module" way)
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', () => setProductSize(btn, btn.dataset.size));
+        });
+
+        document.getElementById('add-to-bag-btn').addEventListener('click', () => {
+            handleAddToBag(product);
+        });
+
     } else {
         detailContainer.innerHTML = `<div class="hero"><h1>404. ITEM NOT FOUND</h1><a href="index.html" class="btn-primary">RETURN</a></div>`;
     }
 });
 
-/**
- * Handle Size Clicks
- */
 function setProductSize(btn, size) {
     document.querySelectorAll('.size-btn').forEach(b => {
         b.style.background = "transparent";
@@ -71,7 +82,6 @@ function setProductSize(btn, size) {
         b.style.borderColor = "var(--border)";
     });
     
-    // Apply Active State (Matches your Brand Accent)
     btn.style.background = "var(--accent)";
     btn.style.color = "#fff";
     btn.style.borderColor = "var(--accent)";
@@ -79,26 +89,25 @@ function setProductSize(btn, size) {
     selectedSize = size;
 }
 
-/**
- * Handle Bag Logic
- */
-function handleAddToBag(id) {
+function handleAddToBag(product) {
     if (!selectedSize) {
         alert("PLEASE SELECT A SIZE");
         return;
     }
 
     let cart = JSON.parse(localStorage.getItem("opalwave_cart") || "[]");
-    const product = window.products.find(p => p.id === id);
 
     const cartItem = {
-        ...product,
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        stripePriceId: product.stripePriceId,
         selectedSize: selectedSize,
         quantity: 1
     };
 
-    // Prevent duplicates of same size
-    const existing = cart.findIndex(i => i.id === id && i.selectedSize === selectedSize);
+    const existing = cart.findIndex(i => i.id === product.id && i.selectedSize === selectedSize);
     if (existing > -1) {
         cart[existing].quantity += 1;
     } else {
@@ -107,13 +116,13 @@ function handleAddToBag(id) {
 
     localStorage.setItem("opalwave_cart", JSON.stringify(cart));
     
-    // Quick success animation/feedback
-    const btn = document.querySelector('.btn-primary');
+    const btn = document.getElementById('add-to-bag-btn');
     btn.innerHTML = "ADDED TO BAG ✓";
-    btn.style.background = "#22c55e"; // Success Green
+    btn.style.background = "#22c55e"; 
     
     setTimeout(() => {
         btn.innerHTML = "ADD TO ARCHIVE BAG";
-        btn.style.background = "#fff";
+        btn.style.background = ""; // Reverts to CSS default
     }, 2000);
+}
 }
