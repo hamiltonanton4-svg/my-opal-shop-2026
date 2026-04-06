@@ -21,6 +21,7 @@ exports.handler = async (event) => {
         // 3. Map items to Stripe format (Price Data approach)
         // This creates the product on-the-fly so you don't need Dashboard IDs
         const lineItems = items.map(item => {
+            // Stripe expects cents ($120.00 = 12000)
             const unitAmount = Math.round(parseFloat(item.price) * 100);
             
             return {
@@ -30,7 +31,7 @@ exports.handler = async (event) => {
                         name: item.name,
                         images: [item.image], // Shows product photo on Stripe page
                     },
-                    unit_amount: unitAmount, // Stripe expects cents ($120.00 = 12000)
+                    unit_amount: unitAmount, 
                 },
                 quantity: item.quantity,
             };
@@ -41,11 +42,15 @@ exports.handler = async (event) => {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
+            
             // Collects shipping info for these specific regions
             shipping_address_collection: { 
                 allowed_countries: ['US', 'CA', 'GB', 'AU'] 
             },
+            
+            // Collects phone number for easier shipping/delivery updates
             phone_number_collection: { enabled: true },
+            
             // Uses the request origin to return the user back to your site
             success_url: `${event.headers.origin}/success.html`,
             cancel_url: `${event.headers.origin}/bag.html`,
@@ -56,7 +61,7 @@ exports.handler = async (event) => {
             statusCode: 200,
             headers: { 
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*" // Allows the frontend to read the response
+                "Access-Control-Allow-Origin": "*" // Crucial for frontend communication
             },
             body: JSON.stringify({ url: session.url }),
         };
