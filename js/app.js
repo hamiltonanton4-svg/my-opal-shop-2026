@@ -1,7 +1,9 @@
 /* --- OPALWAVE MASTER ENGINE 2026 --- */
+import products from './products.js'; // 1. ADDED THIS IMPORT
+
 const CART_STORAGE_KEY = "opalwave_cart";
 
-// Format numbers to USD Currency - Removed manual $ to prevent double symbols
+// Format numbers to USD Currency
 const money = (v) => new Intl.NumberFormat("en-US", { 
     style: "currency", 
     currency: "USD" 
@@ -15,7 +17,6 @@ function renderHeader() {
     const cart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
     const count = cart.reduce((total, item) => total + item.quantity, 0);
     
-    // Using a semantic <header> tag for better SEO/Structure
     header.innerHTML = `
     <header class="site-header">
         <div class="container header-inner">
@@ -46,7 +47,8 @@ function initProducts() {
     const grid = document.getElementById("featured-products") || document.getElementById("product-grid");
     if (!grid) return;
 
-    let items = window.products || [];
+    // 2. UPDATED THIS TO USE THE IMPORTED products
+    let items = products || [];
 
     // URL Filtering Logic
     const urlParams = new URLSearchParams(window.location.search);
@@ -61,7 +63,6 @@ function initProducts() {
         return;
     }
 
-    // Map through items - Note: money(p.price) handles the $ sign
     grid.innerHTML = items.map(p => `
         <div class="product-card reveal">
             <div class="product-image-wrap" onclick="location.href='product.html?id=${p.id}'" style="cursor:pointer;">
@@ -79,7 +80,6 @@ function initProducts() {
         </div>
     `).join("");
 
-    // Trigger reveal animations
     setTimeout(() => {
         document.querySelectorAll('.reveal').forEach(el => el.classList.add('active'));
     }, 150);
