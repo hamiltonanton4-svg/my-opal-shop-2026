@@ -30,15 +30,20 @@ function renderHeader() {
     </header>`;
 }
 
-/* --- UI COMPONENT: FOOTER --- */
+/* --- UI COMPONENT: FOOTER (UPDATED WITH LINKS) --- */
 function renderFooter() {
     const footer = document.getElementById("site-footer");
     if (!footer) return;
+    
     footer.innerHTML = `
     <div class="container" style="padding: 6rem 0; border-top: 1px solid var(--border); margin-top: 5rem; text-align: center;">
-        <p style="font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.3em; text-transform: uppercase;">
+        <p style="font-size: 0.6rem; opacity: 0.4; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 2rem;">
             © 2026 OPALWAVE ARCHIVE. DIGITAL LUXURY. PHYSICAL FORM.
         </p>
+        <div style="display: flex; justify-content: center; gap: 2.5rem;">
+            <a href="refund.html" style="font-size: 0.6rem; color: var(--accent); text-decoration: none; letter-spacing: 2px; font-weight: 700;">[ REFUND POLICY ]</a>
+            <a href="mailto:support.opalwave@gmail.com" style="font-size: 0.6rem; color: white; text-decoration: none; letter-spacing: 2px; opacity: 0.6;">CONTACT@OPALWAVE</a>
+        </div>
     </div>`;
 }
 
@@ -62,7 +67,6 @@ function initProducts() {
         return;
     }
 
-    // UPDATED: Wrapped in <a> tags and removed onclick for Module compatibility
     grid.innerHTML = items.map(p => `
         <div class="product-card reveal">
             <a href="product.html?id=${p.id}" style="text-decoration: none; color: inherit; display: block;">
