@@ -1,5 +1,5 @@
 /* --- OPALWAVE PRODUCT PAGE BUILDER --- */
-import products from './products.js'; // 1. CRITICAL IMPORT
+import products from './products.js'; 
 
 // Track selection for the bag
 let selectedSize = null;
@@ -9,14 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const productId = urlParams.get('id');
     const detailContainer = document.getElementById("product-detail");
 
-    // 2. Updated to use imported products
+    // Check if we have the data and the container
     if (!productId || !products || !detailContainer) return;
 
     const product = products.find(p => p.id === productId);
 
     if (product) {
-        // Fallback for missing description or options to prevent crashes
-        const desc = product.description || "Premium heavyweight construction. Engineered for the ARCHIVE 001 series.";
+        // Fallbacks for missing data in products.js
+        const desc = product.description || "Premium heavyweight construction. Engineered for the OPALWAVE ARCHIVE series. limited run.";
         const sizes = product.options || ["S", "M", "L", "XL"];
 
         detailContainer.innerHTML = `
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        // 3. ATTACH EVENT LISTENERS (The "Module" way)
+        // Attach listeners after the HTML is injected
         document.querySelectorAll('.size-btn').forEach(btn => {
             btn.addEventListener('click', () => setProductSize(btn, btn.dataset.size));
         });
@@ -71,7 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     } else {
-        detailContainer.innerHTML = `<div class="hero"><h1>404. ITEM NOT FOUND</h1><a href="index.html" class="btn-primary">RETURN</a></div>`;
+        detailContainer.innerHTML = `
+            <div style="text-align:center; padding: 10rem 0;">
+                <h1 style="font-size: 3rem; font-weight: 900;">404. ITEM NOT FOUND</h1>
+                <p style="opacity: 0.5; margin-bottom: 2rem;">This piece is not currently in the archive.</p>
+                <a href="index.html" class="btn-primary">RETURN TO HOME</a>
+            </div>`;
     }
 });
 
@@ -108,6 +113,7 @@ function handleAddToBag(product) {
     };
 
     const existing = cart.findIndex(i => i.id === product.id && i.selectedSize === selectedSize);
+    
     if (existing > -1) {
         cart[existing].quantity += 1;
     } else {
@@ -117,12 +123,13 @@ function handleAddToBag(product) {
     localStorage.setItem("opalwave_cart", JSON.stringify(cart));
     
     const btn = document.getElementById('add-to-bag-btn');
+    const originalText = btn.innerHTML;
+    
     btn.innerHTML = "ADDED TO BAG ✓";
     btn.style.background = "#22c55e"; 
     
     setTimeout(() => {
-        btn.innerHTML = "ADD TO ARCHIVE BAG";
-        btn.style.background = ""; // Reverts to CSS default
+        btn.innerHTML = originalText;
+        btn.style.background = ""; 
     }, 2000);
-}
 }
