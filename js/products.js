@@ -5,7 +5,7 @@ const products = [
     name: "ARCHIVED PANTS",
     price: 60.00,
     stripePriceId: "price_1TIjRyQTBolXed9aIRflVtiT",
-    image: "assets/pants-grey-front.png", // Updated
+    image: "assets/pants-grey-front.png",
     category: "ARCHIVE 001"
   },
   {
@@ -13,7 +13,7 @@ const products = [
     name: "WORLD KRISIS [FOREST]",
     price: 50.00,
     stripePriceId: "price_1TIjQMQTBolXed9amg570AO6",
-    image: "assets/krisis-green.png", // Updated
+    image: "assets/krisis-green.png",
     category: "ARCHIVE 001"
   },
   {
@@ -21,7 +21,7 @@ const products = [
     name: "WORLD KRISIS [PURPLE]",
     price: 50.00,
     stripePriceId: "price_1TIjPQQTBolXed9acL8ZEv7Y",
-    image: "assets/krisis-purple.png", // Updated
+    image: "assets/krisis-purple.png",
     category: "ARCHIVE 001"
   },
   {
@@ -75,14 +75,6 @@ const products = [
 
   // --- SUMMER 26 SERIES ---
   {
-    id: "mass-havoc-green",
-    name: "MASS HAVOC [GREEN]",
-    price: 50.00,
-    stripePriceId: "price_1TIjenQTBolXed9aWH7blGDL",
-    image: "assets/mass-havoc-green.png",
-    category: "SUMMER 26"
-  },
-  {
     id: "mass-havoc-burgundy",
     name: "MASS HAVOC [BURGUNDY]",
     price: 50.00,
@@ -103,7 +95,7 @@ const products = [
     name: "STARFALL SHORTS",
     price: 34.99,
     stripePriceId: "price_1TIjUYQTBolXed9ax2GLAqH9",
-    image: "assets/starfall-front.png", // Updated
+    image: "assets/starfall-front.png",
     category: "SUMMER 26"
   },
 
@@ -113,7 +105,7 @@ const products = [
     name: "NONSENSE TEE",
     price: 29.99,
     stripePriceId: "price_1TIjVoQTBolXed9aPas6s6S0",
-    image: "assets/nonsense-front.png", // Updated
+    image: "assets/nonsense-front.png",
     category: "ESSENTIALS"
   }
 ];
